@@ -32,6 +32,8 @@ void Engine::Update()
 				_gameObject.lock()->Update();
 			}
 		}
+
+		m_isRunning = false;
 	}
 }
 
@@ -63,7 +65,7 @@ void Engine::RemoveGameObjects(vector<unsigned int> ids)
 // NOTES: For most tasks, should get GameObject from GameManager class instead
 weak_ptr<GameObject> Engine::GetGameObject(unsigned int id)
 {
-	return m_gameObjects[0];
+	return m_gameObjects[id];
 }
 
 // Returns a vector of all weak_ptr<GameObject> kept in Engine
