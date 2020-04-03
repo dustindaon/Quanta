@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include <iostream>
+#include "RenderingManager.h"
 
 using namespace std;
 
@@ -17,6 +18,9 @@ Engine* Engine::Instance()
 void Engine::Start()
 {
 	cout << "Start your engine!" << endl;
+	//RenderingManager renderMan = RenderingManager();
+	//renderMan.Initiatiate();
+
 	Engine::Instance()->Update();
 }
 

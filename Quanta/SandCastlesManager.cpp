@@ -1,5 +1,7 @@
 #include "SandCastlesManager.h"
 #include "FirstLevel.h"
+#include <fstream>
+#include "Shader.h"
 
 SandCastlesManager* SandCastlesManager::m_pInstance = NULL;
 SandCastlesManager* SandCastlesManager::Instance()

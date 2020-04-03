@@ -25,6 +25,27 @@
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>GameBase</Filter>
     </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Libs</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -48,6 +69,24 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>GameBase</Filter>
     </ClInclude>
+    <ClInclude Include="RenderingManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -59,5 +98,31 @@
     <Filter Include="SandCastles">
       <UniqueIdentifier>{3aa3360b-4b3e-400d-b67c-75fd6cce9f6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libs">
+      <UniqueIdentifier>{f58c8c66-41eb-4316-ad7c-654c197a9133}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameBase\Shaders">
+      <UniqueIdentifier>{7850f66d-1454-4072-a4eb-725c6750b2c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Math">
+      <UniqueIdentifier>{97674d32-0571-4edc-9556-4e3d82c54524}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Basic.vs">
+      <Filter>GameBase\Shaders</Filter>
+    </None>
+    <None Include="Basic.fs">
+      <Filter>GameBase\Shaders</Filter>
+    </None>
+    <None Include="Blue.fs">
+      <Filter>GameBase\Shaders</Filter>
+    </None>
+    <None Include="Red.fs">
+      <Filter>GameBase\Shaders</Filter>
+    </None>
+    <None Include="Standard.vs">
+      <Filter>GameBase\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
