@@ -157,6 +157,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="stb_init.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vector4.cpp" />
   </ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector4.h" />
   </ItemGroup>
@@ -180,6 +182,7 @@
     <None Include="Basic.vs" />
     <None Include="Blue.fs" />
     <None Include="Red.fs" />
+    <None Include="Standard.fs" />
     <None Include="Standard.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

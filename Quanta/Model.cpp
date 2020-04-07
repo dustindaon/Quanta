@@ -1,8 +1,15 @@
 #include "Model.h"
+#include "stb_image.h"
 
-Model::Model(string filePath)
+Model::Model(string modelFilePath)
 {
-	LoadModel(filePath);
+	LoadModel(modelFilePath);
+}
+
+Model::Model(string modelFilePath, const char* textureFilePath)
+{
+	LoadModel(modelFilePath);
+	LoadTexture(textureFilePath);
 }
 
 Model::Model()
@@ -16,6 +23,10 @@ void Model::LoadModel(string filePath)
 	Vector4 secondPoint = Vector4(0.5f, -0.5f, 0.0f);
 	Vector4 thirdPoint = Vector4(0.0f, 0.5f, 0.0f);
 
+	m_texPoints.push_back({ 0.0f, 0.0f });
+	m_texPoints.push_back({ 1.0f, 0.0f });
+	m_texPoints.push_back({ 0.5f, 1.0f });
+
 	if (filePath == "small")
 	{
 		firstPoint = Vector4(-0.75f, -0.75f, 0.0f);
@@ -26,14 +37,54 @@ void Model::LoadModel(string filePath)
 	m_modelPoints.push_back(vector<Vector4>{firstPoint, secondPoint, thirdPoint});
 }
 
-void Model::SetData(vector<vector<Vector4>> data)
+void Model::LoadTexture(const char* filePath)
+{
+	m_texData = stbi_load(filePath, &m_texWidth, &m_texHeight, &m_numColourChannels, 0);
+}
+
+void Model::SetModelData(vector<vector<Vector4>> data)
 {
 	m_modelPoints = data;
 }
 
-vector<vector<Vector4>> Model::GetData()
+vector<vector<Vector4>> Model::GetModelData()
 {
 	return m_modelPoints;
+}
+
+unsigned char* Model::GetTextureData()
+{
+	return m_texData;
+}
+
+vector<vector<float>> Model::GetTexturePoints()
+{
+	return m_texPoints;
+}
+
+int Model::GetTextureWidth()
+{
+	return m_texWidth;
+}
+
+int Model::GetTextureHeight()
+{
+	return m_texHeight;
+}
+
+int Model::GetTextureColourChannels()
+{
+	return m_numColourChannels;
+}
+
+int Model::GetTextureID()
+{
+	return m_texID;
+}
+
+void Model::SetTextureID(unsigned int ID)
+{
+	m_texID = ID;
 }
 
 

@@ -3,11 +3,11 @@
 
 FirstLevel::FirstLevel()
 {
-	Model bigModel = Model("big");
-	Model smallModel = Model("small");
+	Model bigModel = Model("big", "Resources/container.jpg");
+	Model smallModel = Model("small", "Resources/container.jpg");
 
-	Shader blue = Shader("Standard.vs", "Blue.fs");
-	Shader red = Shader("Standard.vs", "Red.fs");
+	Shader blue = Shader("Standard.vs", "Standard.fs");
+	Shader red = Shader("Standard.vs", "Standard.fs");
 	
 	auto triangle = make_shared<GameObject>("BIG!", bigModel, blue);
 	auto triangleSmall = make_shared<GameObject>("SMOLL!", smallModel, red);

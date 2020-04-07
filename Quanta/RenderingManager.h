@@ -23,6 +23,7 @@ public:
 
 private:
 	glm::mat4 GenerateTransforms(weak_ptr<GameObject> parentObj);
+	void LoadTexture(weak_ptr<GameObject> parentObj);
 };
 
 

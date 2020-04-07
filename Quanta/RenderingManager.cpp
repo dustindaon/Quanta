@@ -1,5 +1,5 @@
 #include "RenderingManager.h"
-
+#include "stb_image.h"
 
 using namespace std;
 
@@ -49,42 +49,63 @@ void RenderingManager::Initiatiate()
 	{
 		if (!gameObject.expired())
 		{
-			unsigned int vertexArrObj;
-			glGenVertexArrays(1, &vertexArrObj);
-			glBindVertexArray(vertexArrObj);
-
 			// TODO: Make this load more than the first mesh in a GameObject's Model
-			vector<Vector4> vecModelData = gameObject.lock()->GetModel().GetData()[0];
+			vector<Vector4> vecModelData = gameObject.lock()->GetModel().GetModelData()[0];
+			vector<vector<float>> vecTexPoints = gameObject.lock()->GetModel().GetTexturePoints();
 			vector<float> vecModelFloats;
+			vector<unsigned int> indices;
+			int count = 0;
 			for (Vector4 vec : vecModelData)
 			{
 				vecModelFloats.push_back(vec.GetX());
 				vecModelFloats.push_back(vec.GetY());
 				vecModelFloats.push_back(vec.GetZ());
+				vecModelFloats.push_back(vecTexPoints[count][0]);
+				vecModelFloats.push_back(vecTexPoints[count][1]);
+
+				indices.push_back(0);
+				indices.push_back(1);
+				indices.push_back(2);
+				count++;
 			}
 
-			// Create a vertex buffer to store all our 3D verts
+			// Create a vertex/element buffer to store all our 3D verts
+			unsigned int vertexArrObj;
 			unsigned int vertexBuffObj;
+			unsigned int elementBuffObj;
+			glGenVertexArrays(1, &vertexArrObj);
 			glGenBuffers(1, &vertexBuffObj);
+			glGenBuffers(1, &elementBuffObj);
+
+			glBindVertexArray(vertexArrObj);
 
 			// Copy vertex array into a buffer
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffObj);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vecModelFloats.size(), vecModelFloats.data(), GL_STATIC_DRAW);
 
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffObj);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW);
+
 			// Create a 'pointer' to a data type within our array and tell how to extract that data from the array.
 			// There can be many like position, colour, etc. Then we enable that attribute.
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+			// 0: Position
 			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)0);
+			// 1: Textures
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
 
 			// Add VAO to our list
 			vertexArrObjs.push_back(vertexArrObj);
+
+			LoadTexture(gameObject);
 		}
 
 		objCounter++;
 	}
 
-	// Wireframes to see objects more clearly!
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//// Wireframes to see objects more clearly!
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// Render loop to keep drawing screen until window is closed
 	while (!glfwWindowShouldClose(window))
@@ -107,9 +128,11 @@ void RenderingManager::Initiatiate()
 			unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transforms));
 
+			glBindTexture(GL_TEXTURE_2D, gameObject.lock()->GetModel().GetTextureID());
 			glBindVertexArray(vertexArrObjs[vaoCounter]);
 
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			//glDrawArrays(GL_TRIANGLES, 0, 3);
 
 			vaoCounter++;
 		}
@@ -173,4 +196,30 @@ glm::mat4 RenderingManager::GenerateTransforms(weak_ptr<GameObject> parentObj)
 	//{
 	//	point = transformation * point;
 	//}
+}
+
+void RenderingManager::LoadTexture(weak_ptr<GameObject> parentObj)
+{
+	Model texModel = parentObj.lock()->GetModel();
+	if (!texModel.GetTextureData())
+	{
+		cout << "Error loading texture on gameobject " << parentObj.lock()->GetID() << "." << endl;
+		return;
+	}
+
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+	texModel.SetTextureID(textureID);
+	parentObj.lock()->SetModel(texModel);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texModel.GetTextureWidth(), 
+		texModel.GetTextureHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, texModel.GetTextureData());
+	glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(texModel.GetTextureData());
 }
