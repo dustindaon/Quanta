@@ -28,16 +28,7 @@
     <ClCompile Include="glad.c">
       <Filter>Libs</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingManager.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Vector4.cpp">
@@ -49,6 +40,22 @@
     <ClCompile Include="stb_init.cpp">
       <Filter>Libs</Filter>
     </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingManager.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -72,16 +79,7 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>GameBase</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingManager.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
@@ -93,6 +91,22 @@
     <ClInclude Include="stb_image.h">
       <Filter>Libs</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingManager.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -112,6 +126,9 @@
     </Filter>
     <Filter Include="Engine\Math">
       <UniqueIdentifier>{97674d32-0571-4edc-9556-4e3d82c54524}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rendering">
+      <UniqueIdentifier>{585c01dd-6c1b-48a2-b96a-a7d03630f65e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

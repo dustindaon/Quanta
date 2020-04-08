@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "SandCastlesManager.h"
 #include <iostream>
-#include "Matrix4.h"
+#include "Mesh.h"
 
 using namespace std;
 int main()
@@ -10,8 +10,21 @@ int main()
 	Engine::Instance()->Start();
 	SandCastlesManager::Instance();
 
+	vector<Vertex> testVec;
+	testVec.push_back(Vertex());
+
+	vector<unsigned int> testInt;
+	testInt.push_back(0);
+
+	vector<Texture> testText;
+	testText.push_back(Texture());
+
+	Mesh test = Mesh(testVec, testInt, testText);
+
 	RenderingManager renderMan = RenderingManager();
 	renderMan.Initiatiate();
+
+
 
 	/*Matrix4 test1 = Matrix4(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 	Matrix4 test2 = Matrix4(1, 0, 0, 0,

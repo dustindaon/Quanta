@@ -21,10 +21,17 @@ public:
 	void AddVertexShaderFile(string pathName);
 	void AddFragmentShaderFile(string pathname);
 
+	void SetBool(const string& name, bool value) const;
+	void SetInt(const string& name, int value) const;
+	void SetFloat(const string& name, float value) const;
+
 	unsigned int LoadShaders();
 
 private:
 	vector<string> vertexShaderFiles;
 	vector<string> fragmentShaderFiles;
+
+	unsigned int m_ID;
+	bool m_isLoaded = false;
 };
 

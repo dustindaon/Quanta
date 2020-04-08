@@ -32,6 +32,30 @@ void Shader::AddFragmentShaderFile(string pathName)
 	fragmentShaderFiles.push_back(pathName);
 }
 
+void Shader::SetBool(const string& name, bool value) const
+{
+	if (m_isLoaded)
+	{
+		glUniform1i(glGetUniformLocation(m_ID, name.c_str()), value);
+	}
+}
+
+void Shader::SetInt(const string& name, int value) const
+{
+	if (m_isLoaded)
+	{
+		glUniform1i(glGetUniformLocation(m_ID, name.c_str()), value);
+	}
+}
+
+void Shader::SetFloat(const string& name, float value) const
+{
+	if (m_isLoaded)
+	{
+		glUniform1i(glGetUniformLocation(m_ID, name.c_str()), value);
+	}
+}
+
 unsigned int Shader::LoadShaders()
 {
 	// Create a shader program that combines multiple shaders and pipes the output of one shader to another
@@ -131,6 +155,9 @@ unsigned int Shader::LoadShaders()
 		glGetProgramInfoLog(shaderProgram, 512, NULL, shadProgInfoLog);
 		std::cout << "Error: Shader Program Linking FAILED \n" << shadProgInfoLog << std::endl;
 	}
+
+	m_ID = shaderProgram;
+	m_isLoaded = true;
 
 	return shaderProgram;
 }
