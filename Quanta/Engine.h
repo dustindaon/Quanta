@@ -24,6 +24,12 @@ public:
 	vector<weak_ptr<GameObject>> GetGameObjects();
 	vector<weak_ptr<GameObject>> GetGameObjects(vector<unsigned int> _ids);
 
+	float deltaTime = 0.0f;
+
+	float lastMouseX = 0.0f;
+	float lastMouseY = 0.0f;
+	bool firstMouseMovement = true;
+
 private:
 	Engine() {};
 	Engine(Engine const&) {};
@@ -31,6 +37,9 @@ private:
 	static Engine* m_pInstance;
 	// When set to false, Engine halts all operations
 	bool m_isRunning = false;
+
+	// TODO: Decouple this into its own class.... probably
+	void ProcessInput();
 	// The set of GameObjects passed from a GameManager that need to be initialized and updated
 	vector<weak_ptr<GameObject>> m_gameObjects;
 };

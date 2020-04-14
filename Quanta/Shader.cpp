@@ -32,6 +32,11 @@ void Shader::AddFragmentShaderFile(string pathName)
 	fragmentShaderFiles.push_back(pathName);
 }
 
+unsigned int Shader::GetShaderID()
+{
+	return m_ID;
+}
+
 void Shader::SetBool(const string& name, bool value) const
 {
 	if (m_isLoaded)
@@ -56,8 +61,14 @@ void Shader::SetFloat(const string& name, float value) const
 	}
 }
 
+// Rendering Engine must be started first before loading the shader
 unsigned int Shader::LoadShaders()
 {
+	if (m_isLoaded)
+	{
+		return m_ID;
+	}
+
 	// Create a shader program that combines multiple shaders and pipes the output of one shader to another
 	unsigned int shaderProgram;
 	shaderProgram = glCreateProgram();

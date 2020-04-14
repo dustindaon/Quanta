@@ -4,8 +4,9 @@
 class Vertex
 {
 public:
-	glm::vec3 position;
-	glm::vec3 colour;
-	glm::vec2 textureCoords;
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec4 Color;
+	glm::vec2 TextureCoords;
 };
 

@@ -21,6 +21,8 @@ public:
 	void AddVertexShaderFile(string pathName);
 	void AddFragmentShaderFile(string pathname);
 
+	unsigned int GetShaderID();
+
 	void SetBool(const string& name, bool value) const;
 	void SetInt(const string& name, int value) const;
 	void SetFloat(const string& name, float value) const;

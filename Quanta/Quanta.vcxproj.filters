@@ -28,9 +28,6 @@
     <ClCompile Include="glad.c">
       <Filter>Libs</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Vector4.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
@@ -55,7 +52,15 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Engine\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Model.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -78,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
       <Filter>GameBase</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
       <Filter>Engine\Math</Filter>
@@ -106,7 +108,15 @@
     <ClInclude Include="Mesh.h">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Model.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

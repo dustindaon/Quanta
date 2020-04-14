@@ -2,42 +2,52 @@
 
 Transform::Transform()
 {
-	m_scale = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	m_rotation = Vector4();
-	m_position = Vector4();
+	m_scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	m_rotation = glm::vec3();
+	m_position = glm::vec3();
 }
 
-Vector4 Transform::GetScale()
+glm::vec3 Transform::GetScale()
 {
 	return m_scale;
 }
 
-Vector4 Transform::GetRotation()
+glm::vec3 Transform::GetRotation()
 {
 	return m_rotation;
 }
 
-Vector4 Transform::GetPosition()
+glm::vec3 Transform::GetPosition()
 {
 	return m_position;
 }
 
-void Transform::SetScale(Vector4 newScale)
+void Transform::SetScale(glm::vec3 newScale)
 {
 	m_scale = newScale;
 }
 
-void Transform::SetRotation(Vector4 newRotation)
+void Transform::SetScale(float x, float y, float z)
+{
+	m_scale = glm::vec3(x, y, z);
+}
+
+void Transform::SetRotation(glm::vec3 newRotation)
 {
 	m_rotation = newRotation;
 }
 
-void Transform::SetPosition(Vector4 newPosition)
+void Transform::SetRotation(float x, float y, float z)
+{
+	m_rotation = glm::vec3(x, y, z);
+}
+
+void Transform::SetPosition(glm::vec3 newPosition)
 {
 	m_position = newPosition;
 }
 
 void Transform::SetPosition(float x, float y, float z)
 {
-	m_position = Vector4(x, y, z);
+	m_position = glm::vec3(x, y, z);
 }

@@ -7,5 +7,6 @@ class Texture
 public:
 	unsigned int id;
 	string textureType;
+	string path;
 };
 
