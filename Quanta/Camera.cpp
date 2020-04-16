@@ -46,12 +46,13 @@ glm::mat4 Camera::GenerateViewMatrix()
 	return glm::lookAt(m_transform->GetPosition(), m_transform->GetPosition() + m_facing, m_up);
 }
 
+//TODO: Fix camera rotations on X and Y 
 void Camera::UpdateCameraVectors()
 {
 	// Update the facing
-	m_facing.x = cos(glm::radians(m_transform->GetRotation().x * cos(glm::radians(m_transform->GetRotation().y))));
-	//m_facing.y = sin(glm::radians(m_transform->GetRotation().y));
-	m_facing.z = sin(glm::radians(m_transform->GetRotation().x * cos(glm::radians(m_transform->GetRotation().y))));
+	m_facing.x = cos(glm::radians(m_transform->GetRotation().x)) * cos(glm::radians(m_transform->GetRotation().y));
+	m_facing.y = sin(glm::radians(m_transform->GetRotation().y));
+	m_facing.z = sin(glm::radians(m_transform->GetRotation().x)) * cos(glm::radians(m_transform->GetRotation().y));
 	m_facing = glm::normalize(m_facing);
 
 	// Recalculate camera right and front
@@ -93,3 +94,4 @@ void Camera::SetRight(glm::vec3 newRight)
 {
 	m_right = newRight;
 }
+
