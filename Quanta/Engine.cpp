@@ -1,6 +1,5 @@
 #include "Engine.h"
 #include <iostream>
-#include "SandCastlesManager.h"
 #include "RenderingManager.h"
 
 using namespace std;
@@ -19,16 +18,18 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 	// Figure out the new rotation, and lock the y-axis so the camera can't do flips
 	glm::vec3 cameraRot = Camera::MainCamera->GetTransform()->GetRotation();
 	cameraRot.x = glm::mod(cameraRot.x + xOffset, 360.0f);
-	cameraRot.y += yOffset;
 
-	if (cameraRot.y > 89.0f)
-		cameraRot.y = 89.0f;
-	if (cameraRot.y < -89.0f)
-		cameraRot.y = -89.0f;
+	// Lock up/down rotations
+	//cameraRot.y += yOffset;
+
+	//if (cameraRot.y > 89.0f)
+	//	cameraRot.y = 89.0f;
+	//if (cameraRot.y < -89.0f)
+	//	cameraRot.y = -89.0f;
 
 	Camera::MainCamera->GetTransform()->SetRotation(cameraRot);
 
-	Transform* trans = Camera::MainCamera->GetTransform();
+	shared_ptr<Transform> trans = Camera::MainCamera->GetTransform();
 }
 
 void scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
@@ -56,18 +57,19 @@ Engine* Engine::Instance()
 	return m_pInstance;
 }
 
-void Engine::Start()
+void Engine::Start(shared_ptr<Game> game)
 {
 	RenderingManager::Instance();
 
 	lastMouseX = RenderingManager::Instance()->GetScreenWidth() / 2;
 	lastMouseY = RenderingManager::Instance()->GetScreenHeight() / 2;
 
-	SandCastlesManager::Instance();
-	Engine::Instance()->Update();
+	game->StartGame();
+
+	Engine::Instance()->Update(game);
 }
 
-void Engine::Update()
+void Engine::Update(shared_ptr<Game> game)
 {
 	GLFWwindow* mainWindow = RenderingManager::Instance()->GetMainWindow();
 	// Set mouse callback so we know when the mouse moves
@@ -80,18 +82,17 @@ void Engine::Update()
 	cout << "Updating" << endl;
 	while (m_isRunning)
 	{
+		m_gameObjects = game->GetCurrentScene()->GetGameObjects();
+
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
 		ProcessInput();
 
-		for (weak_ptr<GameObject> _gameObject : m_gameObjects)
+		for (shared_ptr<GameObject> _gameObject : m_gameObjects)
 		{
-			if (!_gameObject.expired())
-			{
-				_gameObject.lock()->Update();
-			}
+			_gameObject->Update();
 		}
 		RenderingManager::Instance()->Update();
 	}
@@ -106,12 +107,12 @@ void Engine::ProcessInput()
 		glfwSetWindowShouldClose(mainWindow, true);
 	}
 
-	Transform* mainCamera = Camera::MainCamera->GetTransform();
+	shared_ptr<Transform> mainCamera = Camera::MainCamera->GetTransform();
 	float cameraSpeed = 1.0f * deltaTime;
 	if (glfwGetKey(mainWindow, GLFW_KEY_W) == GLFW_PRESS)
-		mainCamera->SetPosition(mainCamera->GetPosition() + cameraSpeed * Camera::MainCamera->GetFacing());
+		mainCamera->SetPosition(mainCamera->GetPosition() + cameraSpeed * Camera::MainCamera->GetUp());
 	if (glfwGetKey(mainWindow, GLFW_KEY_S) == GLFW_PRESS)
-		mainCamera->SetPosition(mainCamera->GetPosition() - cameraSpeed * Camera::MainCamera->GetFacing());
+		mainCamera->SetPosition(mainCamera->GetPosition() - cameraSpeed * Camera::MainCamera->GetUp());
 	if (glfwGetKey(mainWindow, GLFW_KEY_A) == GLFW_PRESS)
 		mainCamera->SetPosition(mainCamera->GetPosition() - Camera::MainCamera->GetRight() * cameraSpeed);
 	if (glfwGetKey(mainWindow, GLFW_KEY_D) == GLFW_PRESS)
@@ -143,23 +144,23 @@ void Engine::RemoveGameObjects(vector<unsigned int> ids)
 {
 }
 
-// Returns a weak_ptr<GameObject> from the list of GameObjects stored in Engine
-// NOTES: For most tasks, should get GameObject from GameManager class instead
-weak_ptr<GameObject> Engine::GetGameObject(unsigned int id)
+// Returns a shared_ptr<GameObject> from the list of GameObjects stored in Engine
+// NOTES: For most tasks, should get GameObject from Scene class instead
+shared_ptr<GameObject> Engine::GetGameObject(unsigned int id)
 {
 	return m_gameObjects[id];
 }
 
-// Returns a vector of all weak_ptr<GameObject> kept in Engine
-// NOTES: For most tasks, should get GameObjects from GameManager class instead
-vector<weak_ptr<GameObject>> Engine::GetGameObjects()
+// Returns a vector of all shared_ptr<GameObject> kept in Engine
+// NOTES: For most tasks, should get GameObjects from Scene class instead
+vector<shared_ptr<GameObject>> Engine::GetGameObjects()
 {
 	return m_gameObjects;
 }
 
-// Returns a vector of a subset of weak_ptr<GameObject>'s kept in Engine
-// NOTES: For most tasks, should get GameObjects from GameManager class instead
-vector<weak_ptr<GameObject>> Engine::GetGameObjects(vector<unsigned int> ids)
+// Returns a vector of a subset of shared_ptr<GameObject>'s kept in Engine
+// NOTES: For most tasks, should get GameObjects from Scene class instead
+vector<shared_ptr<GameObject>> Engine::GetGameObjects(vector<unsigned int> ids)
 {
 	return m_gameObjects;
 }

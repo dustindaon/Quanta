@@ -70,25 +70,22 @@ void RenderingManager::Update()
 	// Then create a transformation matrix and pass it to our shaders
 	// TODO: Loading shaders like this is very ineffiecient. Either put all shaders together into one file
 	// OR create a list of already existing shaders and load objects that share the same shader in groups
-	vector<weak_ptr<GameObject>> gameObjects = Engine::Instance()->GetGameObjects();
-	for (weak_ptr<GameObject> gameObject : gameObjects)
+	vector<shared_ptr<GameObject>> gameObjects = Engine::Instance()->GetGameObjects();
+	for (shared_ptr<GameObject> gameObject : gameObjects)
 	{
-		if (!gameObject.expired())
-		{
-			unsigned int shaderProgram = gameObject.lock()->GetShader().LoadShaders();
-			glUseProgram(shaderProgram);
+		unsigned int shaderProgram = gameObject->GetShader().LoadShaders();
+		glUseProgram(shaderProgram);
 
-			gameObject.lock()->GetModel().Draw(gameObject.lock()->GetShader());
+		gameObject->GetModel().Draw(gameObject->GetShader());
 
-			vector<glm::mat4> transforms = GenerateTransforms(gameObject);
-			unsigned int modelLoc = glGetUniformLocation(shaderProgram, "model");
-			unsigned int viewLoc = glGetUniformLocation(shaderProgram, "view");
-			unsigned int projectionLoc = glGetUniformLocation(shaderProgram, "projection");
+		vector<glm::mat4> transforms = GenerateTransforms(gameObject);
+		unsigned int modelLoc = glGetUniformLocation(shaderProgram, "model");
+		unsigned int viewLoc = glGetUniformLocation(shaderProgram, "view");
+		unsigned int projectionLoc = glGetUniformLocation(shaderProgram, "projection");
 
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transforms[0]));
-			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(transforms[1]));
-			glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(transforms[2]));
-		}
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transforms[0]));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(transforms[1]));
+		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(transforms[2]));
 	}
 
 	glfwSwapBuffers(m_mainWindow);

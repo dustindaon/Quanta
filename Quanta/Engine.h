@@ -7,22 +7,23 @@
 #include <vector>
 #include <memory>
 #include "GameObject.h"
+#include "Game.h"
 
 using namespace std;
 class Engine
 {
 public:
 	static Engine* Instance();
-	void Start();
-	void Update();
+	void Start(shared_ptr<Game> game);
+	void Update(shared_ptr<Game> game);
 
 	void AddGameObject(shared_ptr<GameObject>);
 	void AddGameObjects(vector<shared_ptr<GameObject>>);
 	void RemoveGameObject(unsigned int _id);
 	void RemoveGameObjects(vector<unsigned int> _ids);
-	weak_ptr<GameObject> GetGameObject(unsigned int _id);
-	vector<weak_ptr<GameObject>> GetGameObjects();
-	vector<weak_ptr<GameObject>> GetGameObjects(vector<unsigned int> _ids);
+	shared_ptr<GameObject> GetGameObject(unsigned int _id);
+	vector<shared_ptr<GameObject>> GetGameObjects();
+	vector<shared_ptr<GameObject>> GetGameObjects(vector<unsigned int> _ids);
 
 	float deltaTime = 0.0f;
 
@@ -41,6 +42,6 @@ private:
 	// TODO: Decouple this into its own class.... probably
 	void ProcessInput();
 	// The set of GameObjects passed from a GameManager that need to be initialized and updated
-	vector<weak_ptr<GameObject>> m_gameObjects;
+	vector<shared_ptr<GameObject>> m_gameObjects;
 };
 

@@ -11,7 +11,7 @@ Camera::Camera()
 void Camera::Initiate()
 {
 	// Set inital position a few units back from origin
-	Transform* initalTransform = new Transform();
+	shared_ptr<Transform> initalTransform = make_shared<Transform>();
 	initalTransform->SetPosition(0.0f, 0.0f, -3.0f);
 
 	// Set the initial rotation to point the camera toward negative z-axis
@@ -29,12 +29,12 @@ void Camera::Initiate()
 	UpdateCameraVectors();
 }
 
-Transform* Camera::GetTransform()
+shared_ptr<Transform> Camera::GetTransform()
 {
 	return m_transform;
 }
 
-void Camera::SetMainCamera(Camera *newMainCamera)
+void Camera::SetMainCamera(Camera* newMainCamera)
 {
 	Camera::MainCamera = newMainCamera;
 }
@@ -42,7 +42,7 @@ void Camera::SetMainCamera(Camera *newMainCamera)
 glm::mat4 Camera::GenerateViewMatrix()
 {
 	UpdateCameraVectors();
-	
+
 	return glm::lookAt(m_transform->GetPosition(), m_transform->GetPosition() + m_facing, m_up);
 }
 

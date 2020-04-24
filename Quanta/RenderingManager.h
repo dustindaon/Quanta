@@ -14,7 +14,6 @@
 // TESTING
 #include "Shader.h"
 
-using namespace std;
 class RenderingManager
 {
 public:

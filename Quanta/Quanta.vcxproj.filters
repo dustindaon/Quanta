@@ -16,12 +16,6 @@
     <ClCompile Include="FirstLevel.cpp">
       <Filter>SandCastles</Filter>
     </ClCompile>
-    <ClCompile Include="SandCastlesManager.cpp">
-      <Filter>SandCastles</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>GameBase</Filter>
-    </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>GameBase</Filter>
     </ClCompile>
@@ -61,6 +55,15 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Engine\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="FortTortuga.cpp">
+      <Filter>SandCastles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -72,14 +75,8 @@
     <ClInclude Include="GameObject.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="SandCastlesManager.h">
-      <Filter>SandCastles</Filter>
-    </ClInclude>
     <ClInclude Include="FirstLevel.h">
       <Filter>SandCastles</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>GameBase</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
       <Filter>GameBase</Filter>
@@ -116,6 +113,15 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="FortTortuga.h">
+      <Filter>SandCastles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +164,9 @@
       <Filter>GameBase\Shaders</Filter>
     </None>
     <None Include="Standard.fs">
+      <Filter>GameBase\Shaders</Filter>
+    </None>
+    <None Include="Color.fs">
       <Filter>GameBase\Shaders</Filter>
     </None>
   </ItemGroup>

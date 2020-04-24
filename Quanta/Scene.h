@@ -7,6 +7,11 @@ using namespace std;
 class Scene
 {
 public:
+	void AddGameObject(shared_ptr<GameObject>);
+	void AddGameObjects(vector<shared_ptr<GameObject>>);
+	vector<shared_ptr<GameObject>> GetGameObjects();
+
+private:
 	vector<shared_ptr<GameObject>> m_sceneObjects;
 };
 

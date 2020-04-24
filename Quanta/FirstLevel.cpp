@@ -1,5 +1,4 @@
 #include "FirstLevel.h"
-#include "SandCastlesManager.h"
 #include "Camera.h"
 
 FirstLevel::FirstLevel()
@@ -12,12 +11,12 @@ FirstLevel::FirstLevel()
 	Model mapModel = Model("Resources/RoughDraft/Map.obj");
 	auto map = make_shared<GameObject>("Map", mapModel, standard);
 
-	Camera::MainCamera->GetTransform()->SetPosition(0.0f, 0.0f, -3.0f);
-	//Camera::MainCamera->GetTransform()->SetRotation(0.0f, 0.0f, 0.0f);
+	character->GetTransform().SetScale(0.01f, 0.01f, 0.01f);
 
-	m_sceneObjects.push_back(character);
-	m_sceneObjects.push_back(map);
+	// Set the camera above the level pointing down at it
+	Camera::MainCamera->GetTransform()->SetPosition(0.0f, 1.5f, 0.0f);
+	Camera::MainCamera->GetTransform()->SetRotation(0.0f, -90.0f, 0.0f);
 
-
-	SandCastlesManager::Instance()->AddGameObjects(m_sceneObjects);
+	AddGameObject(character);
+	AddGameObject(map);
 }
