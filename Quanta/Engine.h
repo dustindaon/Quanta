@@ -41,6 +41,7 @@ private:
 
 	// TODO: Decouple this into its own class.... probably
 	void ProcessInput();
+
 	// The set of GameObjects passed from a GameManager that need to be initialized and updated
 	vector<shared_ptr<GameObject>> m_gameObjects;
 };
