@@ -4,48 +4,6 @@
 
 using namespace std;
 
-void mouse_callback(GLFWwindow* window, double xPos, double yPos)
-{
-	float xOffset = xPos - Engine::Instance()->lastMouseX;
-	float yOffset = Engine::Instance()->lastMouseY - yPos;
-	Engine::Instance()->lastMouseX = xPos;
-	Engine::Instance()->lastMouseY = yPos;
-
-	const float sensitivity = 0.05f;
-	xOffset *= sensitivity;
-	yOffset *= sensitivity;
-
-	// Figure out the new rotation, and lock the y-axis so the camera can't do flips
-	glm::vec3 cameraRot = Camera::MainCamera->GetTransform()->GetRotation();
-	cameraRot.x = glm::mod(cameraRot.x + xOffset, 360.0f);
-
-	// Lock up/down rotations
-	//cameraRot.y += yOffset;
-
-	//if (cameraRot.y > 89.0f)
-	//	cameraRot.y = 89.0f;
-	//if (cameraRot.y < -89.0f)
-	//	cameraRot.y = -89.0f;
-
-	Camera::MainCamera->GetTransform()->SetRotation(cameraRot);
-
-	shared_ptr<Transform> trans = Camera::MainCamera->GetTransform();
-}
-
-void scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
-{
-	float fov = Camera::MainCamera->fieldOfView;
-
-	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= yOffset;
-	else if (fov <= 1.0f)
-		fov = 1.0f;
-	else if (fov >= 45.0f)
-		fov = 45.0f;
-
-	Camera::MainCamera->fieldOfView = fov;
-}
-
 Engine* Engine::m_pInstance = NULL;
 Engine* Engine::Instance()
 {
@@ -61,9 +19,6 @@ void Engine::Start(shared_ptr<Game> game)
 {
 	RenderingManager::Instance();
 
-	lastMouseX = RenderingManager::Instance()->GetScreenWidth() / 2;
-	lastMouseY = RenderingManager::Instance()->GetScreenHeight() / 2;
-
 	game->StartGame();
 
 	Engine::Instance()->Update(game);
@@ -71,24 +26,16 @@ void Engine::Start(shared_ptr<Game> game)
 
 void Engine::Update(shared_ptr<Game> game)
 {
-	GLFWwindow* mainWindow = RenderingManager::Instance()->GetMainWindow();
-	// Set mouse callback so we know when the mouse moves
-	glfwSetCursorPosCallback(mainWindow, mouse_callback);
-	glfwSetScrollCallback(mainWindow, scroll_callback);
-	glfwSetCursorPos(mainWindow, lastMouseX, lastMouseY);
-
 	float lastFrame = 0.0f;
 
 	cout << "Updating" << endl;
 	while (m_isRunning)
 	{
-		m_gameObjects = game->GetCurrentScene()->GetGameObjects();
+		m_gameObjects = game->GetGameObjects();
 
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-
-		ProcessInput();
 
 		for (shared_ptr<GameObject> _gameObject : m_gameObjects)
 		{
@@ -96,27 +43,6 @@ void Engine::Update(shared_ptr<Game> game)
 		}
 		RenderingManager::Instance()->Update();
 	}
-}
-
-void Engine::ProcessInput()
-{
-	GLFWwindow* mainWindow = RenderingManager::Instance()->GetMainWindow();
-
-	if (glfwGetKey(mainWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-	{
-		glfwSetWindowShouldClose(mainWindow, true);
-	}
-
-	shared_ptr<Transform> mainCamera = Camera::MainCamera->GetTransform();
-	float cameraSpeed = 1.0f * deltaTime;
-	if (glfwGetKey(mainWindow, GLFW_KEY_W) == GLFW_PRESS)
-		mainCamera->SetPosition(mainCamera->GetPosition() + cameraSpeed * Camera::MainCamera->GetUp());
-	if (glfwGetKey(mainWindow, GLFW_KEY_S) == GLFW_PRESS)
-		mainCamera->SetPosition(mainCamera->GetPosition() - cameraSpeed * Camera::MainCamera->GetUp());
-	if (glfwGetKey(mainWindow, GLFW_KEY_A) == GLFW_PRESS)
-		mainCamera->SetPosition(mainCamera->GetPosition() - Camera::MainCamera->GetRight() * cameraSpeed);
-	if (glfwGetKey(mainWindow, GLFW_KEY_D) == GLFW_PRESS)
-		mainCamera->SetPosition(mainCamera->GetPosition() + Camera::MainCamera->GetRight() * cameraSpeed);
 }
 
 

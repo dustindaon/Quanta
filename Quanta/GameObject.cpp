@@ -2,21 +2,22 @@
 
 unsigned int GameObject::m_idCounter;
 
-void GameObject::Update()
-{
-}
-
 GameObject::GameObject(string name, Model model, Shader shader)
 {
 	m_name = name;
 	SetModel(model);
 	SetShader(shader);
+	isEmpty = false;
 	GameObject();
 }
 
 GameObject::GameObject()
 {
 	SetID(GameObject::m_idCounter);
+}
+
+void GameObject::Update()
+{
 }
 
 void GameObject::SetID(unsigned int id)

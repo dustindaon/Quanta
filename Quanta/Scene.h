@@ -4,7 +4,7 @@
 #include <memory>
 
 using namespace std;
-class Scene
+class Scene : public GameObject
 {
 public:
 	void AddGameObject(shared_ptr<GameObject>);

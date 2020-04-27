@@ -70,6 +70,12 @@
     <ClCompile Include="Unit.cpp">
       <Filter>GameBase</Filter>
     </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>GameBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>GameBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -133,6 +139,12 @@
       <Filter>GameBase</Filter>
     </ClInclude>
     <ClInclude Include="Unit.h">
+      <Filter>GameBase</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>GameBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
       <Filter>GameBase</Filter>
     </ClInclude>
   </ItemGroup>

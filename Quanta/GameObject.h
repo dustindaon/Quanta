@@ -2,17 +2,18 @@
 #include <string>
 #include <vector>
 #include "Model.h"
-#include "Vector4.h"
 #include "Shader.h"
+#include "Component.h"
 #include "Transform.h"
 
 using namespace std;
-class GameObject
+class GameObject : public enable_shared_from_this<GameObject>
 {
 public:
-	void Update();
 	GameObject(string name, Model model, Shader shader);
 	GameObject();
+
+	virtual void Update();
 
 	unsigned int GetID();
 	void SetID(unsigned int id);
@@ -25,6 +26,8 @@ public:
 
 	Transform& GetTransform();
 	void SetTransform(Transform transform);
+
+	bool isEmpty = true;
 
 private:
 	unsigned int m_id;

@@ -58,7 +58,7 @@ void RenderingManager::Initiate()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// Lock the mouse inside the window
-	glfwSetInputMode(m_mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(m_mainWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
 void RenderingManager::Update()
@@ -73,6 +73,11 @@ void RenderingManager::Update()
 	vector<shared_ptr<GameObject>> gameObjects = Engine::Instance()->GetGameObjects();
 	for (shared_ptr<GameObject> gameObject : gameObjects)
 	{
+		if (gameObject->isEmpty)
+		{
+			continue;
+		}
+
 		unsigned int shaderProgram = gameObject->GetShader().LoadShaders();
 		glUseProgram(shaderProgram);
 
