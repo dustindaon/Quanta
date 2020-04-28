@@ -39,7 +39,7 @@ void Engine::Update(shared_ptr<Game> game)
 
 		for (shared_ptr<GameObject> _gameObject : m_gameObjects)
 		{
-			_gameObject->Update();
+			_gameObject->Update(deltaTime);
 		}
 		RenderingManager::Instance()->Update();
 	}

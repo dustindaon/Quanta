@@ -3,9 +3,9 @@
 #include <fstream>
 #include "Shader.h"
 
-void FortTortuga::Update()
+void FortTortuga::Update(float deltaTime)
 {
-	m_inputHandler.HandleInput();
+	m_inputHandler.HandleInput(deltaTime);
 }
 
 void FortTortuga::StartGame()

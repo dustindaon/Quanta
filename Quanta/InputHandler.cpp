@@ -16,7 +16,7 @@ void scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
 	InputHandler::SetMouseScroll(glm::vec2(xOffset, yOffset));
 }
 
-Command* InputHandler::HandleInput()
+Command* InputHandler::HandleInput(float deltaTime)
 {
 	GLFWwindow* mainWindow = RenderingManager::Instance()->GetMainWindow();
 	// Set mouse callback so we know when the mouse moves
@@ -26,7 +26,7 @@ Command* InputHandler::HandleInput()
 	//lastMouseX = RenderingManager::Instance()->GetScreenWidth() / 2;
 	//lastMouseY = RenderingManager::Instance()->GetScreenHeight() / 2;
 
-	ProcessKeys();
+	ProcessKeys(deltaTime);
 	ProcessMouse();
 
 	return NULL;
@@ -56,7 +56,7 @@ glm::vec2 InputHandler::GetMouseScroll()
 	return m_mouseScroll;
 }
 
-void InputHandler::ProcessKeys()
+void InputHandler::ProcessKeys(float deltaTime)
 {
 	GLFWwindow* mainWindow = RenderingManager::Instance()->GetMainWindow();
 
@@ -66,7 +66,7 @@ void InputHandler::ProcessKeys()
 	}
 
 	shared_ptr<Transform> mainCamera = Camera::MainCamera->GetTransform();
-	float cameraSpeed = 1.0f * Engine::Instance()->deltaTime;
+	float cameraSpeed = 1.0f * deltaTime;
 	if (glfwGetKey(mainWindow, GLFW_KEY_W) == GLFW_PRESS)
 		mainCamera->SetPosition(mainCamera->GetPosition() + cameraSpeed * Camera::MainCamera->GetUp());
 	if (glfwGetKey(mainWindow, GLFW_KEY_S) == GLFW_PRESS)
@@ -104,7 +104,11 @@ void InputHandler::ProcessMouse()
 		m_mouseMoved = false;
 
 #if _DEBUG
-		cout << "X Position: " << Camera::MainCamera->GetTransform()->GetPosition().x << ", Y Position: " << Camera::MainCamera->GetTransform()->GetPosition().y << endl;
+		//glm::vec3 newPos = { Camera::MainCamera->GetTransform()->GetPosition().x, 0, Camera::MainCamera->GetTransform()->GetPosition().z };
+
+		//auto mouseTest = Engine::Instance()->GetGameObject(1);
+		//mouseTest->GetTransform().SetPosition(newPos);
+		cout << "X Position: " << Camera::MainCamera->GetTransform()->GetPosition().x << ", Z Position: " << Camera::MainCamera->GetTransform()->GetPosition().z << endl;
 #endif // _DEBUG
 	}
 

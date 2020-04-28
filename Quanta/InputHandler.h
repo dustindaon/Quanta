@@ -5,7 +5,7 @@
 class InputHandler
 {
 public:
-	Command* HandleInput();
+	Command* HandleInput(float deltaTime);
 	static void SetMousePos(glm::vec2 newPos);
 	glm::vec2 GetMousePos();
 	static void SetMouseScroll(glm::vec2 newScroll);
@@ -25,7 +25,7 @@ private:
 	static bool m_mouseMoved;
 	static bool m_mouseScrolled;
 
-	void ProcessKeys();
+	void ProcessKeys(float deltaTime);
 	void ProcessMouse();
 };
 

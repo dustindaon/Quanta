@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-unsigned int GameObject::m_idCounter;
+unsigned int GameObject::m_idCounter = 0;
 
 GameObject::GameObject(string name, Model model, Shader shader)
 {
@@ -8,7 +8,8 @@ GameObject::GameObject(string name, Model model, Shader shader)
 	SetModel(model);
 	SetShader(shader);
 	isEmpty = false;
-	GameObject();
+	SetID(GameObject::m_idCounter);
+
 }
 
 GameObject::GameObject()
@@ -16,7 +17,7 @@ GameObject::GameObject()
 	SetID(GameObject::m_idCounter);
 }
 
-void GameObject::Update()
+void GameObject::Update(float deltaTime)
 {
 }
 
@@ -24,6 +25,16 @@ void GameObject::SetID(unsigned int id)
 {
 	m_id = id;
 	GameObject::m_idCounter++;
+}
+
+string GameObject::GetName()
+{
+	return m_name;
+}
+
+void GameObject::SetName(string name)
+{
+	m_name = name;
 }
 
 Model& GameObject::GetModel()

@@ -130,16 +130,16 @@ vector<glm::mat4> RenderingManager::GenerateTransforms(weak_ptr<GameObject> pare
 	glm::vec3 rotation = parent.GetRotation();
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
 
-	// Transform its scale
-	modelMatrix = glm::scale(modelMatrix, scale);
+	// Transform its position
+	modelMatrix = glm::translate(modelMatrix, position);
 
 	// Transform its rotation through X, Y, and Z
 	modelMatrix = glm::rotate(modelMatrix, rotation.x, glm::vec3(1.0, 0.0, 0.0));
 	modelMatrix = glm::rotate(modelMatrix, rotation.y, glm::vec3(0.0, 1.0, 0.0));
 	modelMatrix = glm::rotate(modelMatrix, rotation.z, glm::vec3(0.0, 0.0, 1.0));
 
-	// Transform its position
-	modelMatrix = glm::translate(modelMatrix, position);
+	// Transform its scale
+	modelMatrix = glm::scale(modelMatrix, scale);
 
 	//// Generate View Matrix
 	glm::mat4 viewMatrix = Camera::MainCamera->GenerateViewMatrix();

@@ -13,10 +13,13 @@ public:
 	GameObject(string name, Model model, Shader shader);
 	GameObject();
 
-	virtual void Update();
+	virtual void Update(float deltaTime);
 
 	unsigned int GetID();
 	void SetID(unsigned int id);
+
+	string GetName();
+	void SetName(string name);
 
 	Model& GetModel();
 	void SetModel(Model model);

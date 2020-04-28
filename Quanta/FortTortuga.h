@@ -5,7 +5,7 @@
 class FortTortuga: public Game
 {
 public:
-	void Update();
+	void Update(float deltaTime);
 	void StartGame();
 
 	shared_ptr<Scene> GetScene(int index);
