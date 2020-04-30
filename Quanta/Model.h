@@ -13,8 +13,10 @@ class Model
 {
 public:
 	Model();									
-	Model(string const &modelFilePath);
+	Model(string const& modelFilePath);
+	Model(string const& spriteFilePath, glm::vec2 spriteSize);
 	void LoadModel(string const& modelFilePath);
+	void Load2DModel(string spriteFilePath, glm::vec2 spriteSize);
 	void Draw(Shader shader);
 
 
@@ -33,12 +35,13 @@ public:
 private:
 	vector<Mesh> m_meshes;
 	string m_directory;
+	glm::vec2 m_spriteSize;
 
 	void ProcessAssimpNode(aiNode *node, const aiScene *scene);
 	Mesh ProcessAssimpMesh(aiMesh *mesh, const aiScene *scene);
 
 	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
-	unsigned int LoadTextureFromFile(const char* path, const string& directory);
+	unsigned int LoadTextureFromFile(string& path);
 
 	//string m_modelFilePath;
 	//const char* m_texFilePath;

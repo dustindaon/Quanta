@@ -10,6 +10,11 @@ Model::Model(string const& modelFilePath)
 	LoadModel(modelFilePath);
 }
 
+Model::Model(string const& spriteFilePath, glm::vec2 spriteSize)
+{
+	Load2DModel(spriteFilePath, spriteSize);
+}
+
 Model::Model()
 {
 
@@ -28,6 +33,41 @@ void Model::LoadModel(string const &filePath)
 	m_directory = filePath.substr(0, filePath.find_last_of('/'));
 
 	ProcessAssimpNode(scene->mRootNode, scene);
+}
+
+// Creates a square sprite using a filepath as the sprite
+// TODO: Add spritesheet functionality
+void Model::Load2DModel(string spriteFilePath, glm::vec2 spriteSize)
+{
+	vector<Texture> sprites;
+
+	bool skip = false;
+	for (unsigned int j = 0; j < texturesLoaded.size(); j++)
+	{
+		// Already loaded our texture once
+		if (texturesLoaded[j].path == spriteFilePath)
+		{
+			sprites.push_back(texturesLoaded[j]);
+			skip = true;
+			break;
+		}
+	}
+	// If our texture hasn't been loaded already then load it
+	if (!skip)
+	{
+		Texture sprite;
+		// Assumes the texture file is located in the same directory as the model parent
+		sprite.id = LoadTextureFromFile(spriteFilePath);
+		sprite.textureType = aiTextureType_DIFFUSE;
+		sprite.path = spriteFilePath;
+
+		sprites.push_back(sprite);
+	}
+	
+	vector<Vertex> verts;
+	vector<unsigned int> indices;
+	Mesh spriteMesh = Mesh(verts, indices, sprites);
+	m_meshes.push_back(spriteMesh);
 }
 
 void Model::Draw(Shader shader)
@@ -147,7 +187,9 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		{
 			Texture texture;
 			// Assumes the texture file is located in the same directory as the model parent
-			texture.id = LoadTextureFromFile(location.C_Str(), m_directory);
+			string filename = location.C_Str() + '/' + m_directory;
+
+			texture.id = LoadTextureFromFile(filename);
 			texture.textureType = typeName;
 			texture.path = location.C_Str();
 			textures.push_back(texture);
@@ -156,17 +198,14 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 	return textures;
 }
 
-unsigned int Model::LoadTextureFromFile(const char* path, const string &directory)
+unsigned int Model::LoadTextureFromFile(string& path)
 {
-	string filename = string(path);
-	filename = directory + '/' + filename;
-
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 
 	// If this fails, likely that the Texture path is invalid
 	int width, height, nrComponents;
-	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+	unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
 	if (data)
 	{
 		GLenum format = GL_RGBA;
