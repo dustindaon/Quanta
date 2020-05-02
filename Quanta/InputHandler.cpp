@@ -75,6 +75,8 @@ void InputHandler::ProcessKeys(float deltaTime)
 		mainCamera->SetPosition(mainCamera->GetPosition() - Camera::MainCamera->GetRight() * cameraSpeed);
 	if (glfwGetKey(mainWindow, GLFW_KEY_D) == GLFW_PRESS)
 		mainCamera->SetPosition(mainCamera->GetPosition() + Camera::MainCamera->GetRight() * cameraSpeed);
+	if (glfwGetKey(mainWindow, GLFW_KEY_E) == GLFW_PRESS)
+		mainCamera->SetPosition(mainCamera->GetPosition() - Camera::MainCamera->GetFacing() * cameraSpeed * 2.0f);
 }
 
 void InputHandler::ProcessMouse()

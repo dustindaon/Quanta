@@ -134,9 +134,9 @@ vector<glm::mat4> RenderingManager::GenerateTransforms(weak_ptr<GameObject> pare
 	modelMatrix = glm::translate(modelMatrix, position);
 
 	// Transform its rotation through X, Y, and Z
-	modelMatrix = glm::rotate(modelMatrix, rotation.x, glm::vec3(1.0, 0.0, 0.0));
-	modelMatrix = glm::rotate(modelMatrix, rotation.y, glm::vec3(0.0, 1.0, 0.0));
-	modelMatrix = glm::rotate(modelMatrix, rotation.z, glm::vec3(0.0, 0.0, 1.0));
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation.x), glm::vec3(1.0, 0.0, 0.0));
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation.y), glm::vec3(0.0, 1.0, 0.0));
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation.z), glm::vec3(0.0, 0.0, 1.0));
 
 	// Transform its scale
 	modelMatrix = glm::scale(modelMatrix, scale);

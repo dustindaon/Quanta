@@ -9,10 +9,13 @@ void FirstLevel::Update()
 FirstLevel::FirstLevel()
 {
 	CreateEnemies();
-	Shader standard = Shader("Standard.vs", "Standard.fs");
 
-	Model mapModel = Model("Resources/RoughDraft/Map.obj");
+	// Create a map sprite and rotate it into postion (got all the positions on the map from a previous ver,
+	// so we have to rotate the map to fit the old coordinates)
+	Shader standard = Shader("Standard.vs", "Standard.fs");
+	Model mapModel = Model("Resources/RoughDraft/map_sprite.png", true);
 	auto map = make_shared<GameObject>("Map", mapModel, standard);
+	map->GetTransform().SetRotation(0, 180, 0);
 
 	// Set the camera above the level pointing down at it
 	Camera::MainCamera->GetTransform()->SetPosition(0.0f, 1.5f, 0.0f);
@@ -70,7 +73,6 @@ void FirstLevel::CreateEnemies()
 	enemy1->SetRoute(newRoute);
 	enemy1->SetMovementSpeed(0.2f);
 }
-
 
 //Start Point 1: 0.666, 0.590
 //Start Point 2 : -0.456, 0.458

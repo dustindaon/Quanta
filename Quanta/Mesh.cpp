@@ -73,6 +73,11 @@ void Mesh::Draw(Shader shader)
 	}
 	glActiveTexture(GL_TEXTURE0);
 
+	if (vertIndices.size() == 4)
+	{
+		cout << "We're here" << endl;
+	}
+
 	// Draw mesh
 	glBindVertexArray(m_VAO);
 	glDrawElements(GL_TRIANGLES, vertIndices.size(), GL_UNSIGNED_INT, 0);

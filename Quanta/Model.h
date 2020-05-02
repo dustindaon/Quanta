@@ -12,11 +12,11 @@ using namespace std;
 class Model
 {
 public:
-	Model();									
+	Model();
 	Model(string const& modelFilePath);
-	Model(string const& spriteFilePath, glm::vec2 spriteSize);
+	Model(string const& spriteFilePath, bool isSprite);
 	void LoadModel(string const& modelFilePath);
-	void Load2DModel(string spriteFilePath, glm::vec2 spriteSize);
+	void Load2DModel(string spriteFilePath);
 	void Draw(Shader shader);
 
 
@@ -37,8 +37,8 @@ private:
 	string m_directory;
 	glm::vec2 m_spriteSize;
 
-	void ProcessAssimpNode(aiNode *node, const aiScene *scene);
-	Mesh ProcessAssimpMesh(aiMesh *mesh, const aiScene *scene);
+	void ProcessAssimpNode(aiNode* node, const aiScene* scene);
+	Mesh ProcessAssimpMesh(aiMesh* mesh, const aiScene* scene);
 
 	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
 	unsigned int LoadTextureFromFile(string& path);

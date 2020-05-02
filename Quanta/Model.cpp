@@ -10,9 +10,9 @@ Model::Model(string const& modelFilePath)
 	LoadModel(modelFilePath);
 }
 
-Model::Model(string const& spriteFilePath, glm::vec2 spriteSize)
+Model::Model(string const& spriteFilePath, bool isSprite)
 {
-	Load2DModel(spriteFilePath, spriteSize);
+	Load2DModel(spriteFilePath);
 }
 
 Model::Model()
@@ -20,7 +20,7 @@ Model::Model()
 
 }
 
-void Model::LoadModel(string const &filePath)
+void Model::LoadModel(string const& filePath)
 {
 	Assimp::Importer modelImporter;
 	const aiScene* scene = modelImporter.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -37,7 +37,7 @@ void Model::LoadModel(string const &filePath)
 
 // Creates a square sprite using a filepath as the sprite
 // TODO: Add spritesheet functionality
-void Model::Load2DModel(string spriteFilePath, glm::vec2 spriteSize)
+void Model::Load2DModel(string spriteFilePath)
 {
 	vector<Texture> sprites;
 
@@ -60,12 +60,44 @@ void Model::Load2DModel(string spriteFilePath, glm::vec2 spriteSize)
 		sprite.id = LoadTextureFromFile(spriteFilePath);
 		sprite.textureType = aiTextureType_DIFFUSE;
 		sprite.path = spriteFilePath;
-
 		sprites.push_back(sprite);
 	}
-	
+
+	// Make a square for our sprite
 	vector<Vertex> verts;
+	Vertex vert1;
+	vert1.Position = glm::vec3(-1, 0, 1);
+	vert1.Normal = glm::vec3(0, 0, 1);
+	vert1.Color = glm::vec4(0, 0, 0, 1);
+	vert1.TextureCoords = glm::vec2(0, 1);
+	Vertex vert2;
+	vert2.Position = glm::vec3(1, 0, 1);
+	vert2.Normal = glm::vec3(0, 0, 0);
+	vert2.Color = glm::vec4(0, 0, 0, 1);
+	vert2.TextureCoords = glm::vec2(1, 1);
+	Vertex vert3;
+	vert3.Position = glm::vec3(1, 0, -1);
+	vert3.Normal = glm::vec3(1, 0, 0);
+	vert3.Color = glm::vec4(1, 0, 0, 1);
+	vert3.TextureCoords = glm::vec2(1, 0);
+	Vertex vert4;
+	vert4.Position = glm::vec3(-1, 0, -1);
+	vert4.Normal = glm::vec3(1, 0, 1);
+	vert4.Color = glm::vec4(1, 0, 1, 1);
+	vert4.TextureCoords = glm::vec2(0, 0);
+	verts.push_back(vert1);
+	verts.push_back(vert2);
+	verts.push_back(vert3);
+	verts.push_back(vert4);
+
 	vector<unsigned int> indices;
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(2);
+	indices.push_back(2);
+	indices.push_back(3);
+	indices.push_back(0);
+
 	Mesh spriteMesh = Mesh(verts, indices, sprites);
 	m_meshes.push_back(spriteMesh);
 }
@@ -79,7 +111,7 @@ void Model::Draw(Shader shader)
 }
 
 // To be used if you want to maintain the heirarchy/connectivity of meshes in the scene
-void Model::ProcessAssimpNode(aiNode *node, const aiScene *scene)
+void Model::ProcessAssimpNode(aiNode* node, const aiScene* scene)
 {
 	// Go through the meshes in each node
 	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
@@ -182,12 +214,12 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 				break;
 			}
 		}
-		 // If our texture hasn't been loaded already then load it
+		// If our texture hasn't been loaded already then load it
 		if (!skip)
 		{
 			Texture texture;
 			// Assumes the texture file is located in the same directory as the model parent
-			string filename = location.C_Str() + '/' + m_directory;
+			string filename = m_directory + '/' + location.C_Str();
 
 			texture.id = LoadTextureFromFile(filename);
 			texture.textureType = typeName;
@@ -200,6 +232,7 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 
 unsigned int Model::LoadTextureFromFile(string& path)
 {
+	cout << path << endl;
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 
