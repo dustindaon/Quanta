@@ -14,5 +14,6 @@ public:
 
 private:
 	InputHandler m_inputHandler;
+	vector<shared_ptr<GameObject>> m_globalObjects;
 };
 

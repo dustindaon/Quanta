@@ -11,6 +11,7 @@ class GameObject : public enable_shared_from_this<GameObject>
 {
 public:
 	GameObject(string name, Model model, Shader shader);
+	GameObject(string name, Model model);
 	GameObject();
 
 	virtual void Update(float deltaTime);

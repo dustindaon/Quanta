@@ -9,7 +9,16 @@ GameObject::GameObject(string name, Model model, Shader shader)
 	SetShader(shader);
 	isEmpty = false;
 	SetID(GameObject::m_idCounter);
+}
 
+GameObject::GameObject(string name, Model model)
+{
+	m_name = name;
+	Shader standardShader = Shader("Standard.vs", "Standard.fs");
+	SetModel(model);
+	SetShader(standardShader);
+	isEmpty = false;
+	SetID(GameObject::m_idCounter);
 }
 
 GameObject::GameObject()

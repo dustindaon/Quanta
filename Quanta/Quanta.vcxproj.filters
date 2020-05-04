@@ -14,7 +14,7 @@
       <Filter>GameBase</Filter>
     </ClCompile>
     <ClCompile Include="FirstLevel.cpp">
-      <Filter>SandCastles</Filter>
+      <Filter>FortTortuga</Filter>
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>GameBase</Filter>
@@ -59,7 +59,7 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="FortTortuga.cpp">
-      <Filter>SandCastles</Filter>
+      <Filter>FortTortuga</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Engine</Filter>
@@ -88,7 +88,7 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="FirstLevel.h">
-      <Filter>SandCastles</Filter>
+      <Filter>FortTortuga</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
       <Filter>GameBase</Filter>
@@ -130,7 +130,7 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="FortTortuga.h">
-      <Filter>SandCastles</Filter>
+      <Filter>FortTortuga</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Engine</Filter>
@@ -155,9 +155,6 @@
     <Filter Include="GameBase">
       <UniqueIdentifier>{e8c4332b-1571-44e3-ac8c-9d68b1bd6167}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SandCastles">
-      <UniqueIdentifier>{3aa3360b-4b3e-400d-b67c-75fd6cce9f6b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Libs">
       <UniqueIdentifier>{f58c8c66-41eb-4316-ad7c-654c197a9133}</UniqueIdentifier>
     </Filter>
@@ -169,6 +166,12 @@
     </Filter>
     <Filter Include="Engine\Rendering">
       <UniqueIdentifier>{585c01dd-6c1b-48a2-b96a-a7d03630f65e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FortTortuga">
+      <UniqueIdentifier>{3aa3360b-4b3e-400d-b67c-75fd6cce9f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FortTortuga\Commands">
+      <UniqueIdentifier>{88228528-7c43-47e9-8503-d0d4538cbf0b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

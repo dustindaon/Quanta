@@ -5,6 +5,8 @@
 class InputHandler
 {
 public:
+	void Initialize(shared_ptr<GameObject> cursorSprite);
+
 	Command* HandleInput(float deltaTime);
 	static void SetMousePos(glm::vec2 newPos);
 	glm::vec2 GetMousePos();
@@ -17,6 +19,8 @@ private:
 	Command* m_buttonA;
 	Command* m_buttonS;
 	Command* m_buttonD;
+
+	shared_ptr<GameObject> m_cursorSprite;
 
 	static glm::vec2 m_mousePos;
 	static glm::vec2 m_mouseOldPos;
