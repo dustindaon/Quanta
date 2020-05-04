@@ -23,9 +23,9 @@ void InputHandler::Initialize(shared_ptr<GameObject> cursorSprite)
 
 	glfwSetCursorPosCallback(mainWindow, mouse_callback);
 	glfwSetScrollCallback(mainWindow, scroll_callback);
-	//glfwSetCursorPos(mainWindow, lastMouseX, lastMouseY);
-	//lastMouseX = RenderingManager::Instance()->GetScreenWidth() / 2;
-	//lastMouseY = RenderingManager::Instance()->GetScreenHeight() / 2;
+	m_mouseOldPos.x = RenderingManager::Instance()->GetScreenWidth() / 2;
+	m_mouseOldPos.y = RenderingManager::Instance()->GetScreenHeight() / 2;
+	glfwSetCursorPos(mainWindow, m_mouseOldPos.x, m_mouseOldPos.y);
 
 	m_cursorSprite = cursorSprite;
 }
@@ -112,9 +112,9 @@ void InputHandler::ProcessMouse()
 		//	cameraRot.y = -89.0f;
 
 		// Rotate the camera and cursor to match
-		Camera::MainCamera->GetTransform()->SetRotation(cameraRot);
+		//Camera::MainCamera->GetTransform()->SetRotation(cameraRot);
 		m_mouseMoved = false;
-		//m_cursorSprite->GetTransform().SetRotation(0, -cameraRot.x + 50, 0);
+		m_cursorSprite->GetTransform().SetRotation(0, -cameraRot.x + 50, 0);
 
 //#if _DEBUG
 //		//glm::vec3 newPos = { Camera::MainCamera->GetTransform()->GetPosition().x, 0, Camera::MainCamera->GetTransform()->GetPosition().z };
@@ -145,9 +145,9 @@ void InputHandler::ProcessMouse()
 	//float cursorX = Camera::MainCamera->GetTransform()->GetPosition().x + (m_mousePos.x * 0.001);
 	//float cursorY = Camera::MainCamera->GetTransform()->GetPosition().y - 0.15;
 	//float cursorZ = Camera::MainCamera->GetTransform()->GetPosition().z + (m_mousePos.y * 0.001);
-	float cursorX = Camera::MainCamera->GetTransform()->GetPosition().x + (m_mousePos.y * 0.000125);
+	float cursorX = Camera::MainCamera->GetTransform()->GetPosition().x + (m_mousePos.y * 0.000207) - 0.06;
 	float cursorY = Camera::MainCamera->GetTransform()->GetPosition().y - 0.15;
-	float cursorZ = Camera::MainCamera->GetTransform()->GetPosition().z - (m_mousePos.x * 0.000166);
+	float cursorZ = Camera::MainCamera->GetTransform()->GetPosition().z - (m_mousePos.x * 0.000207) + 0.08;
 	m_cursorSprite->GetTransform().SetPosition(cursorX, cursorY, cursorZ);
 }
 
