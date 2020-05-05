@@ -50,8 +50,6 @@ void RenderingManager::Initiate()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
-
 	// Tell OpenGL the size of the rendering window for coordinates/display
 	// First two parameters are bottom left of window, last two are top right
 	// NOTES: OpenGL converts coordinates to (-1, 1) for both dimensions. (0, 0) = middle of screen.
@@ -104,8 +102,6 @@ void RenderingManager::Update()
 
 	glfwSwapBuffers(m_mainWindow);
 	glfwPollEvents();
-
-	//glfwTerminate();
 }
 
 float RenderingManager::GetScreenWidth()

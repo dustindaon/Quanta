@@ -20,7 +20,12 @@ private:
 	Command* m_buttonS;
 	Command* m_buttonD;
 
+	GLFWwindow* m_gameWindow;
+
 	shared_ptr<GameObject> m_cursorSprite;
+
+	bool m_mouseLeftDown = false;
+	bool m_mouseRightDown = false;
 
 	static glm::vec2 m_mousePos;
 	static glm::vec2 m_mouseOldPos;
@@ -31,5 +36,10 @@ private:
 
 	void ProcessKeys(float deltaTime);
 	void ProcessMouse();
+	void HandleMouseMovement();
+	void HandleMouseScroll();
+	void HandleMouseLeftClick();
+	void HandleMouseRightClick();
+	void UpdateCursor();
 };
 
