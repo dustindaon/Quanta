@@ -27,14 +27,15 @@ void RenderingManager::Initiate()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Make the window object and give it dimensions
-	m_mainWindow = glfwCreateWindow(m_screenWidth, m_screenHeight, "Fort Tortuga", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(m_screenWidth, m_screenHeight, "Fort Tortuga", NULL, NULL);
+	m_mainWindow = shared_ptr<GLFWwindow>(window);
 	if (m_mainWindow == NULL)
 	{
 		std::cout << "Failed to create OPENGL window" << std::endl;
 		glfwTerminate();
 		return;
 	}
-	glfwMakeContextCurrent(m_mainWindow);
+	glfwMakeContextCurrent(m_mainWindow.get());
 
 	// Load GLAD and tell it where the location of the OpenGL function pointers are
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -56,13 +57,13 @@ void RenderingManager::Initiate()
 	glViewport(0, 0, m_screenWidth, m_screenHeight);
 
 	// Tell GLFW about our callback method that resizes the viewport when window is resized
-	glfwSetFramebufferSizeCallback(m_mainWindow, FramebufferSizeCallback);
+	glfwSetFramebufferSizeCallback(m_mainWindow.get(), FramebufferSizeCallback);
 
 	//// Wireframes to see objects more clearly!
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// Disable cursor
-	glfwSetInputMode(m_mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(m_mainWindow.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 //	// Lock the mouse inside the window
 //	glfwSetInputMode(m_mainWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -100,7 +101,7 @@ void RenderingManager::Update()
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(transforms[2]));
 	}
 
-	glfwSwapBuffers(m_mainWindow);
+	glfwSwapBuffers(m_mainWindow.get());
 	glfwPollEvents();
 }
 
@@ -114,7 +115,7 @@ float RenderingManager::GetScreenHeight()
 	return m_screenHeight;
 }
 
-GLFWwindow* RenderingManager::GetMainWindow()
+weak_ptr<GLFWwindow> RenderingManager::GetMainWindow()
 {
 	return m_mainWindow;
 }

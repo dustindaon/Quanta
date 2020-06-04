@@ -24,7 +24,7 @@ public:
 
 	float GetScreenWidth();
 	float GetScreenHeight();
-	GLFWwindow* GetMainWindow();
+	weak_ptr<GLFWwindow> GetMainWindow();
 
 private:
 	RenderingManager() {};
@@ -33,7 +33,7 @@ private:
 	static RenderingManager* m_pInstance;
 
 	vector<glm::mat4> GenerateTransforms(weak_ptr<GameObject> parentObj);
-	GLFWwindow *m_mainWindow;
+	shared_ptr<GLFWwindow> m_mainWindow;
 
 	void Initiate();
 

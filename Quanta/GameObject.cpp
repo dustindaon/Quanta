@@ -7,7 +7,6 @@ GameObject::GameObject(string name, Model model, Shader shader)
 	m_name = name;
 	SetModel(model);
 	SetShader(shader);
-	isEmpty = false;
 	SetID(GameObject::m_idCounter);
 }
 
@@ -17,13 +16,13 @@ GameObject::GameObject(string name, Model model)
 	Shader standardShader = Shader("Standard.vs", "Standard.fs");
 	SetModel(model);
 	SetShader(standardShader);
-	isEmpty = false;
 	SetID(GameObject::m_idCounter);
 }
 
 GameObject::GameObject()
 {
 	SetID(GameObject::m_idCounter);
+	isEmpty = true;
 }
 
 void GameObject::Update(float deltaTime)

@@ -1,15 +1,17 @@
 #include "RenderingManager.h"
 #include "Engine.h"
-#include "FortTortuga.h"
+#include "Condor.h"
 #include <iostream>
 #include "Mesh.h"
 
 using namespace std;
 int main()
 {
-	shared_ptr<FortTortuga> fortTortuga = make_shared<FortTortuga>();
+	//shared_ptr<Condor> Condor = make_shared<Condor>();
+	Condor::Instance();
+	Condor::Instance();
 
-	Engine::Instance()->Start(static_pointer_cast<Game>(fortTortuga));
+	Engine::Instance()->Start(static_pointer_cast<Game>(Condor::Instance()));
 
 	return 0;
 }

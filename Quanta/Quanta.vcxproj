@@ -144,9 +144,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Catapult.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="CreateRadialMenuCommand.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FirstLevel.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -157,23 +160,30 @@
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="RadialMenu.cpp" />
     <ClCompile Include="RenderingManager.cpp" />
-    <ClCompile Include="FortTortuga.cpp" />
+    <ClCompile Include="Condor.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="ScrollCommand.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="stb_init.cpp" />
+    <ClCompile Include="Swordsman.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="Vector4.cpp" />
     <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Archer.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Catapult.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="CreateRadialMenuCommand.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="FirstLevel.h" />
     <ClInclude Include="Game.h" />
@@ -182,15 +192,19 @@
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="RadialMenu.h" />
     <ClInclude Include="RenderingManager.h" />
-    <ClInclude Include="FortTortuga.h" />
+    <ClInclude Include="Condor.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="ScrollCommand.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Swordsman.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="Vertex.h" />

@@ -31,7 +31,7 @@ public:
 	Transform& GetTransform();
 	void SetTransform(Transform transform);
 
-	bool isEmpty = true;
+	bool isEmpty = false;
 
 private:
 	unsigned int m_id;

@@ -1,9 +1,13 @@
 #include "FirstLevel.h"
 #include "Camera.h"
-#include "Unit.h"
+
+#include "Swordsman.h"
+#include "Archer.h"
+#include "Catapult.h"
 
 void FirstLevel::Update()
 {
+
 }
 
 FirstLevel::FirstLevel()
@@ -22,6 +26,37 @@ FirstLevel::FirstLevel()
 	Camera::MainCamera->GetTransform()->SetRotation(0.0f, -90.0f, 0.0f);
 
 	AddGameObject(map);
+}
+
+void FirstLevel::PopulatePurchasableUnits()
+{
+}
+
+void FirstLevel::HandleCommands(vector<shared_ptr<Command>> commands)
+{
+	for (int i = 0; i < commands.size(); ++i)
+	{
+		commands[i]->Execute();
+	}
+}
+
+shared_ptr<GameObject> FirstLevel::GetObjectAtLocation(glm::vec2 location)
+{
+	vector<shared_ptr<GameObject>> sceneObjects = GetGameObjects();
+
+	for (int i = 0; i < sceneObjects.size(); ++i)
+	{
+		glm::vec2 objectPos = glm::vec2(sceneObjects[i]->GetTransform().GetPosition().x, sceneObjects[i]->GetTransform().GetPosition().z);
+		float collisionDist = 0.5f;
+
+		cout << "(" << location.x << ", " << location.y << "), (" << objectPos.x << ", " << objectPos.y << ")" << endl;
+		cout << (objectPos - location).length() << endl;
+		if ((objectPos - location).length() <= collisionDist)
+		{
+			return sceneObjects[i];
+		}
+	}
+	return nullptr;
 }
 
 void FirstLevel::CreateEnemies()

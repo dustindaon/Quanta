@@ -2,27 +2,29 @@
 #include "Command.h"
 #include "RenderingManager.h"
 
-class InputHandler
+class InputHandler	
 {
 public:
 	void Initialize(shared_ptr<GameObject> cursorSprite);
 
-	Command* HandleInput(float deltaTime);
+	vector<shared_ptr<Command>> HandleInput(float deltaTime);
 	static void SetMousePos(glm::vec2 newPos);
 	glm::vec2 GetMousePos();
 	static void SetMouseScroll(glm::vec2 newScroll);
 	glm::vec2 GetMouseScroll();
 
+	shared_ptr<Command> buttonWCmd;
+	shared_ptr<Command> buttonACmd;
+	shared_ptr<Command> buttonSCmd;
+	shared_ptr<Command> buttonDCmd;
+	shared_ptr<Command> leftClickCmd;
+	shared_ptr<Command> rightClickCmd;
+	shared_ptr<Command> scrollCmd;
 
 private:
-	Command* m_buttonW;
-	Command* m_buttonA;
-	Command* m_buttonS;
-	Command* m_buttonD;
+	weak_ptr<GLFWwindow> m_gameWindow;
 
-	GLFWwindow* m_gameWindow;
-
-	shared_ptr<GameObject> m_cursorSprite;
+	shared_ptr<GameObject> m_cursorObject;
 
 	bool m_mouseLeftDown = false;
 	bool m_mouseRightDown = false;
@@ -31,15 +33,14 @@ private:
 	static glm::vec2 m_mouseOldPos;
 	static glm::vec2 m_mouseScroll;
 
-	static bool m_mouseMoved;
-	static bool m_mouseScrolled;
+	static bool m_mouseDidMove;
+	static bool m_mouseDidScroll;
 
 	void ProcessKeys(float deltaTime);
-	void ProcessMouse();
+	vector<shared_ptr<Command>> ProcessMouse();
 	void HandleMouseMovement();
-	void HandleMouseScroll();
-	void HandleMouseLeftClick();
-	void HandleMouseRightClick();
+	shared_ptr<Command> HandleMouseLeftClick();
+	shared_ptr<Command> HandleMouseRightClick();
 	void UpdateCursor();
 };
 

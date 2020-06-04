@@ -1,10 +1,13 @@
 #include "InputHandler.h"
+#include "ScrollCommand.h"
+#include "CreateRadialMenuCommand.h"
+#include "Condor.h"
 
 glm::vec2 InputHandler::m_mousePos;
 glm::vec2 InputHandler::m_mouseOldPos = glm::vec2(0.0f, 0.0f);
 glm::vec2 InputHandler::m_mouseScroll;
-bool InputHandler::m_mouseScrolled = false;
-bool InputHandler::m_mouseMoved = false;
+bool InputHandler::m_mouseDidScroll = false;
+bool InputHandler::m_mouseDidMove = false;
 
 void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 {
@@ -19,23 +22,23 @@ void scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
 void InputHandler::Initialize(shared_ptr<GameObject> cursorSprite)
 {
 	// Set mouse callback so we know when the mouse moves
-	GLFWwindow* mainWindow = RenderingManager::Instance()->GetMainWindow();
+	m_gameWindow = RenderingManager::Instance()->GetMainWindow();
 
-	glfwSetCursorPosCallback(mainWindow, mouse_callback);
-	glfwSetScrollCallback(mainWindow, scroll_callback);
+	glfwSetCursorPosCallback(m_gameWindow.lock().get(), mouse_callback);
+	glfwSetScrollCallback(m_gameWindow.lock().get(), scroll_callback);
 	m_mouseOldPos.x = RenderingManager::Instance()->GetScreenWidth() / 2;
 	m_mouseOldPos.y = RenderingManager::Instance()->GetScreenHeight() / 2;
-	glfwSetCursorPos(mainWindow, m_mouseOldPos.x, m_mouseOldPos.y);
+	glfwSetCursorPos(m_gameWindow.lock().get(), m_mouseOldPos.x, m_mouseOldPos.y);
 
-	m_cursorSprite = cursorSprite;
+	m_cursorObject = move(cursorSprite);
 }
 
-Command* InputHandler::HandleInput(float deltaTime)
+vector<shared_ptr<Command>> InputHandler::HandleInput(float deltaTime)
 {
 	ProcessKeys(deltaTime);
-	ProcessMouse();
+	vector<shared_ptr<Command>> returnCommands = move(ProcessMouse());
 	UpdateCursor();
-	return NULL;
+	return returnCommands;
 }
 
 void InputHandler::SetMousePos(glm::vec2 newPos)
@@ -43,7 +46,7 @@ void InputHandler::SetMousePos(glm::vec2 newPos)
 	m_mouseOldPos = m_mousePos;
 	m_mousePos = newPos;
 
-	m_mouseMoved = true;
+	m_mouseDidMove = true;
 }
 
 glm::vec2 InputHandler::GetMousePos()
@@ -54,7 +57,7 @@ glm::vec2 InputHandler::GetMousePos()
 void InputHandler::SetMouseScroll(glm::vec2 newScroll)
 {
 	m_mouseScroll = newScroll;
-	m_mouseScrolled = true;
+	m_mouseDidScroll = true;
 }
 
 glm::vec2 InputHandler::GetMouseScroll()
@@ -66,58 +69,69 @@ void InputHandler::ProcessKeys(float deltaTime)
 {
 	m_gameWindow = RenderingManager::Instance()->GetMainWindow();
 
-	if (glfwGetKey(m_gameWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	if (glfwGetKey(m_gameWindow.lock().get(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
-		glfwSetWindowShouldClose(m_gameWindow, true);
+		glfwSetWindowShouldClose(m_gameWindow.lock().get(), true);
 	}
 
 	shared_ptr<Transform> mainCamera = Camera::MainCamera->GetTransform();
 	float cameraSpeed = 1.0f * deltaTime;
-	if (glfwGetKey(m_gameWindow, GLFW_KEY_W) == GLFW_PRESS)
+	if (glfwGetKey(m_gameWindow.lock().get(), GLFW_KEY_W) == GLFW_PRESS)
 		mainCamera->SetPosition(mainCamera->GetPosition() + cameraSpeed * Camera::MainCamera->GetUp());
-	if (glfwGetKey(m_gameWindow, GLFW_KEY_S) == GLFW_PRESS)
+	if (glfwGetKey(m_gameWindow.lock().get(), GLFW_KEY_S) == GLFW_PRESS)
 		mainCamera->SetPosition(mainCamera->GetPosition() - cameraSpeed * Camera::MainCamera->GetUp());
-	if (glfwGetKey(m_gameWindow, GLFW_KEY_A) == GLFW_PRESS)
+	if (glfwGetKey(m_gameWindow.lock().get(), GLFW_KEY_A) == GLFW_PRESS)
 		mainCamera->SetPosition(mainCamera->GetPosition() - Camera::MainCamera->GetRight() * cameraSpeed);
-	if (glfwGetKey(m_gameWindow, GLFW_KEY_D) == GLFW_PRESS)
+	if (glfwGetKey(m_gameWindow.lock().get(), GLFW_KEY_D) == GLFW_PRESS)
 		mainCamera->SetPosition(mainCamera->GetPosition() + Camera::MainCamera->GetRight() * cameraSpeed);
-	if (glfwGetKey(m_gameWindow, GLFW_KEY_E) == GLFW_PRESS)
+	if (glfwGetKey(m_gameWindow.lock().get(), GLFW_KEY_E) == GLFW_PRESS)
 		mainCamera->SetPosition(mainCamera->GetPosition() - Camera::MainCamera->GetFacing() * cameraSpeed * 2.0f);
-	if (glfwGetKey(m_gameWindow, GLFW_KEY_Q) == GLFW_PRESS)
+	if (glfwGetKey(m_gameWindow.lock().get(), GLFW_KEY_Q) == GLFW_PRESS)
 		mainCamera->SetPosition(mainCamera->GetPosition() + Camera::MainCamera->GetFacing() * cameraSpeed * 2.0f);
 }
 
-void InputHandler::ProcessMouse()
+vector<shared_ptr<Command>> InputHandler::ProcessMouse()
 {
-	if (m_mouseMoved)
+	vector<shared_ptr<Command>> returnCommands;
+
+	if (m_mouseDidMove)
 	{
 		HandleMouseMovement();
-		m_mouseMoved = false;
+		m_mouseDidMove = false;
 	}
-
-	if (m_mouseScrolled)
+	if (m_mouseDidScroll)
 	{
-		HandleMouseScroll();
-		m_mouseScrolled = false;
+		returnCommands.push_back(make_shared<ScrollCommand>(m_mouseScroll));
+		m_mouseDidScroll = false;
 	}
-	if (glfwGetMouseButton(m_gameWindow, 0) == GLFW_RELEASE && m_mouseLeftDown)
+	if (glfwGetMouseButton(m_gameWindow.lock().get(), 0) == GLFW_RELEASE && m_mouseLeftDown)
 	{
-		HandleMouseLeftClick();
+		shared_ptr<Command> leftClickCommand = HandleMouseLeftClick();
+		if (leftClickCommand != NULL)
+		{
+			returnCommands.push_back(leftClickCmd);
+		}
 		m_mouseLeftDown = false;
 	}
-	else if (glfwGetMouseButton(m_gameWindow, 0))
+	else if (glfwGetMouseButton(m_gameWindow.lock().get(), 0))
 	{
 		m_mouseLeftDown = true;
 	}
-	if (glfwGetMouseButton(m_gameWindow, 1) == GLFW_RELEASE && m_mouseRightDown)
+	if (glfwGetMouseButton(m_gameWindow.lock().get(), 1) == GLFW_RELEASE && m_mouseRightDown)
 	{
-		HandleMouseRightClick();
+		shared_ptr<Command> rightClickCommand = HandleMouseRightClick();
+		if (rightClickCommand != NULL)
+		{
+			returnCommands.push_back(rightClickCommand);
+		}
 		m_mouseRightDown = false;
 	}
-	else if(glfwGetMouseButton(m_gameWindow, 1))
+	else if(glfwGetMouseButton(m_gameWindow.lock().get(), 1))
 	{
 		m_mouseRightDown = true;
 	}
+
+	return move(returnCommands);
 }
 
 void InputHandler::HandleMouseMovement()
@@ -143,7 +157,7 @@ void InputHandler::HandleMouseMovement()
 
 	// Rotate the camera and cursor to match
 	//Camera::MainCamera->GetTransform()->SetRotation(cameraRot);
-	m_cursorSprite->GetTransform().SetRotation(0, -cameraRot.x + 50, 0);
+	m_cursorObject->GetTransform().SetRotation(0, -cameraRot.x + 50, 0);
 
 	//#if _DEBUG
 	//		//glm::vec3 newPos = { Camera::MainCamera->GetTransform()->GetPosition().x, 0, Camera::MainCamera->GetTransform()->GetPosition().z };
@@ -154,30 +168,28 @@ void InputHandler::HandleMouseMovement()
 	//#endif // _DEBUG
 }
 
-void InputHandler::HandleMouseScroll()
+shared_ptr<Command> InputHandler::HandleMouseLeftClick()
 {
-	shared_ptr<Transform> trans = Camera::MainCamera->GetTransform();
+	glm::vec2 cursorPosition = glm::vec2(m_cursorObject->GetTransform().GetPosition().x, m_cursorObject->GetTransform().GetPosition().z);
 
-	float fov = Camera::MainCamera->fieldOfView;
+	// Check if the target location is valid
+	if (Condor::Instance()->CheckIfLocationIsValid(cursorPosition))
+	{
+		cout << "Yay!" << endl;
+	}
+	else
+	{
+		cout << "Boo!" << endl;
+	}
 
-	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= m_mouseScroll.y;
-	else if (fov <= 1.0f)
-		fov = 1.0f;
-	else if (fov >= 45.0f)
-		fov = 45.0f;
-
-	Camera::MainCamera->fieldOfView = fov;
+	return leftClickCmd;
 }
 
-void InputHandler::HandleMouseLeftClick()
+shared_ptr<Command> InputHandler::HandleMouseRightClick()
 {
-	cout << "Left click! X: " << m_cursorSprite->GetTransform().GetPosition().x << ", Z: " << m_cursorSprite->GetTransform().GetPosition().z << endl;
-}
+	cout << "Right click! X: " << m_cursorObject->GetTransform().GetPosition().x << ", Z: " << m_cursorObject->GetTransform().GetPosition().z << endl;
 
-void InputHandler::HandleMouseRightClick()
-{
-	cout << "Right click! X: " << m_cursorSprite->GetTransform().GetPosition().x << ", Z: " << m_cursorSprite->GetTransform().GetPosition().z << endl;
+	return rightClickCmd;
 }
 
 void InputHandler::UpdateCursor()
@@ -185,6 +197,15 @@ void InputHandler::UpdateCursor()
 	float cursorX = Camera::MainCamera->GetTransform()->GetPosition().x + (m_mousePos.y * 0.000207) - 0.06;
 	float cursorY = Camera::MainCamera->GetTransform()->GetPosition().y - 0.15;
 	float cursorZ = Camera::MainCamera->GetTransform()->GetPosition().z - (m_mousePos.x * 0.000207) + 0.08;
-	m_cursorSprite->GetTransform().SetPosition(cursorX, cursorY, cursorZ);
+	m_cursorObject->GetTransform().SetPosition(cursorX, cursorY, cursorZ);
 }
 
+//void InputHandler::AddNewUnitType(Unit unitToAdd)
+//{
+//	m_unitTypes.push_back(unitToAdd);
+//}
+//
+//vector<Unit> InputHandler::GetUnitTypes()
+//{
+//	return m_unitTypes;
+//}

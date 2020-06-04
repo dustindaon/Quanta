@@ -8,8 +8,8 @@ class SpawnManager
 {
 public:
 	static SpawnManager* Instance();
-
 	void Spawn(Unit unitToSpawn, int spawnPosId);
+
 
 private:
 	SpawnManager() {};
@@ -18,6 +18,5 @@ private:
 	static SpawnManager* m_pInstance;
 
 	vector<GameObject> m_spawnPoints;
-
 };
 
