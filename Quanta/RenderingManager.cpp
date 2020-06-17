@@ -16,6 +16,7 @@ RenderingManager* RenderingManager::Instance()
 
 void RenderingManager::Initiate() 
 {
+	// TODO: Make these values editable via UI
 	m_screenWidth = 800;
 	m_screenHeight = 600;
 
@@ -27,11 +28,11 @@ void RenderingManager::Initiate()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Make the window object and give it dimensions
-	GLFWwindow* window = glfwCreateWindow(m_screenWidth, m_screenHeight, "Fort Tortuga", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(m_screenWidth, m_screenHeight, "CondorsNest", NULL, NULL);
 	m_mainWindow = shared_ptr<GLFWwindow>(window);
 	if (m_mainWindow == NULL)
 	{
-		std::cout << "Failed to create OPENGL window" << std::endl;
+		std::cout << "Failed to create OpenGL window" << std::endl;
 		glfwTerminate();
 		return;
 	}
@@ -81,21 +82,25 @@ void RenderingManager::Update()
 	vector<shared_ptr<GameObject>> gameObjects = Engine::Instance()->GetGameObjects();
 	for (shared_ptr<GameObject> gameObject : gameObjects)
 	{
+		// Ignore empty objects
 		if (gameObject->isEmpty)
 		{
 			continue;
 		}
 
+		// Load the specific shader assigned to each GameObject, enable it, then send it to our draw function
+		// in order to use it
 		unsigned int shaderProgram = gameObject->GetShader().LoadShaders();
 		glUseProgram(shaderProgram);
-
 		gameObject->GetModel().Draw(gameObject->GetShader());
 
-		vector<glm::mat4> transforms = GenerateTransforms(gameObject);
+		// Get matrix parameters from our Shader file
 		unsigned int modelLoc = glGetUniformLocation(shaderProgram, "model");
 		unsigned int viewLoc = glGetUniformLocation(shaderProgram, "view");
 		unsigned int projectionLoc = glGetUniformLocation(shaderProgram, "projection");
 
+		// Update and set our shader params to our current matrix values using a given GameObject
+		vector<glm::mat4> transforms = GenerateTransforms(gameObject);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transforms[0]));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(transforms[1]));
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(transforms[2]));
@@ -126,6 +131,7 @@ void RenderingManager::FramebufferSizeCallback(GLFWwindow* window, int width, in
 	glViewport(0, 0, width, height);
 }
 
+// Create our Model, View, and Projection matrices
 vector<glm::mat4> RenderingManager::GenerateTransforms(weak_ptr<GameObject> parentObj)
 {
 	Transform parent = parentObj.lock()->GetTransform();

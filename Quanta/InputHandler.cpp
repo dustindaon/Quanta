@@ -1,7 +1,7 @@
 #include "InputHandler.h"
 #include "ScrollCommand.h"
 #include "CreateRadialMenuCommand.h"
-#include "Condor.h"
+#include "CondorsNest.h"
 
 glm::vec2 InputHandler::m_mousePos;
 glm::vec2 InputHandler::m_mouseOldPos = glm::vec2(0.0f, 0.0f);
@@ -173,7 +173,7 @@ shared_ptr<Command> InputHandler::HandleMouseLeftClick()
 	glm::vec2 cursorPosition = glm::vec2(m_cursorObject->GetTransform().GetPosition().x, m_cursorObject->GetTransform().GetPosition().z);
 
 	// Check if the target location is valid
-	if (Condor::Instance()->CheckIfLocationIsValid(cursorPosition))
+	if (CondorsNest::Instance()->CheckIfLocationIsValid(cursorPosition))
 	{
 		cout << "Yay!" << endl;
 	}

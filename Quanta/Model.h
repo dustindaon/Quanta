@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <string>
 #include "stb_image.h"
@@ -8,7 +9,15 @@
 #include <memory>
 
 using namespace std;
-#pragma once
+
+////////////////////////////////////////////////////////////
+// Model Class
+// Usage: Given a filepath, create and store either a 3D model or 2D sprite
+// =========================================================
+// Params: 
+// string: Filepath to determine where to load the 3D geometry/textures from
+// (optional) bool: If only wanting a 2D texture on a quad, set this to true
+/////////////////////////////////////////////////////////////
 class Model
 {
 public:
@@ -19,38 +28,20 @@ public:
 	void Load2DModel(string spriteFilePath);
 	void Draw(Shader shader);
 
-
-	//void LoadTexture(const char* filePath);
-	//void SetModelData(vector<vector<Vector4>> data);
-	//vector<vector<Vector4>> GetModelData();
-	//unsigned char* GetTextureData();
-	//vector<vector<float>> GetTexturePoints();
-
-	//int GetTextureWidth();
-	//int GetTextureHeight();
-	//int GetTextureColourChannels();
-	//int GetTextureID();
-	//void SetTextureID(unsigned int ID);
+	void SetID(unsigned int id);
+	unsigned int GetID();
 
 private:
 	vector<Mesh> m_meshes;
 	string m_directory;
 	glm::vec2 m_spriteSize;
 
+	unsigned int m_id;
+
 	void ProcessAssimpNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessAssimpMesh(aiMesh* mesh, const aiScene* scene);
 
 	vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
 	unsigned int LoadTextureFromFile(string& path);
-
-	//string m_modelFilePath;
-	//const char* m_texFilePath;
-	//unsigned char* m_texData;
-	//int m_texWidth;
-	//int m_texHeight;
-	//int m_numColourChannels;
-	//unsigned int m_texID;
-	//vector<vector<Vector4>> m_modelPoints;
-	//vector<vector<float>> m_texPoints;
 };
 

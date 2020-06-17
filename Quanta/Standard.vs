@@ -7,6 +7,7 @@ layout (location = 3) in vec2 aTexCoord;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform unsigned int colorID;
 
 out vec2 TexCoord;
 out vec4 Color;

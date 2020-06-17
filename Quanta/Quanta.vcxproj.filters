@@ -14,7 +14,7 @@
       <Filter>GameBase</Filter>
     </ClCompile>
     <ClCompile Include="FirstLevel.cpp">
-      <Filter>FortTortuga</Filter>
+      <Filter>Condor%27s Nest</Filter>
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>GameBase</Filter>
@@ -65,37 +65,37 @@
       <Filter>GameBase</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
-      <Filter>FortTortuga\UI</Filter>
+      <Filter>Condor%27s Nest\UI</Filter>
     </ClCompile>
     <ClCompile Include="Catapult.cpp">
-      <Filter>FortTortuga\Units</Filter>
+      <Filter>Condor%27s Nest\Units</Filter>
     </ClCompile>
     <ClCompile Include="Swordsman.cpp">
-      <Filter>FortTortuga\Units</Filter>
+      <Filter>Condor%27s Nest\Units</Filter>
     </ClCompile>
     <ClCompile Include="Archer.cpp">
-      <Filter>FortTortuga\Units</Filter>
+      <Filter>Condor%27s Nest\Units</Filter>
     </ClCompile>
     <ClCompile Include="RadialMenu.cpp">
-      <Filter>FortTortuga\UI</Filter>
+      <Filter>Condor%27s Nest\UI</Filter>
     </ClCompile>
     <ClCompile Include="InputHandler.cpp">
-      <Filter>FortTortuga</Filter>
+      <Filter>Condor%27s Nest</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>GameBase</Filter>
     </ClCompile>
     <ClCompile Include="ScrollCommand.cpp">
-      <Filter>FortTortuga\Commands</Filter>
+      <Filter>Condor%27s Nest\Commands</Filter>
     </ClCompile>
     <ClCompile Include="CreateRadialMenuCommand.cpp">
-      <Filter>FortTortuga\Commands</Filter>
+      <Filter>Condor%27s Nest\Commands</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>GameBase</Filter>
     </ClCompile>
-    <ClCompile Include="Condor.cpp">
-      <Filter>FortTortuga</Filter>
+    <ClCompile Include="CondorsNest.cpp">
+      <Filter>Condor%27s Nest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +109,7 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="FirstLevel.h">
-      <Filter>FortTortuga</Filter>
+      <Filter>Condor%27s Nest</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
       <Filter>GameBase</Filter>
@@ -157,37 +157,37 @@
       <Filter>GameBase</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
-      <Filter>FortTortuga\UI</Filter>
+      <Filter>Condor%27s Nest\UI</Filter>
     </ClInclude>
     <ClInclude Include="Swordsman.h">
-      <Filter>FortTortuga\Units</Filter>
+      <Filter>Condor%27s Nest\Units</Filter>
     </ClInclude>
     <ClInclude Include="Archer.h">
-      <Filter>FortTortuga\Units</Filter>
+      <Filter>Condor%27s Nest\Units</Filter>
     </ClInclude>
     <ClInclude Include="Catapult.h">
-      <Filter>FortTortuga\Units</Filter>
+      <Filter>Condor%27s Nest\Units</Filter>
     </ClInclude>
     <ClInclude Include="RadialMenu.h">
-      <Filter>FortTortuga\UI</Filter>
+      <Filter>Condor%27s Nest\UI</Filter>
     </ClInclude>
     <ClInclude Include="InputHandler.h">
-      <Filter>FortTortuga</Filter>
+      <Filter>Condor%27s Nest</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>GameBase</Filter>
     </ClInclude>
     <ClInclude Include="ScrollCommand.h">
-      <Filter>FortTortuga\Commands</Filter>
+      <Filter>Condor%27s Nest\Commands</Filter>
     </ClInclude>
     <ClInclude Include="CreateRadialMenuCommand.h">
-      <Filter>FortTortuga\Commands</Filter>
+      <Filter>Condor%27s Nest\Commands</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>GameBase</Filter>
     </ClInclude>
-    <ClInclude Include="Condor.h">
-      <Filter>FortTortuga</Filter>
+    <ClInclude Include="CondorsNest.h">
+      <Filter>Condor%27s Nest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,16 +209,16 @@
     <Filter Include="Engine\Rendering">
       <UniqueIdentifier>{585c01dd-6c1b-48a2-b96a-a7d03630f65e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FortTortuga">
+    <Filter Include="Condor%27s Nest">
       <UniqueIdentifier>{3aa3360b-4b3e-400d-b67c-75fd6cce9f6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FortTortuga\Commands">
+    <Filter Include="Condor%27s Nest\Commands">
       <UniqueIdentifier>{88228528-7c43-47e9-8503-d0d4538cbf0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FortTortuga\UI">
+    <Filter Include="Condor%27s Nest\UI">
       <UniqueIdentifier>{db873f02-121b-4595-9152-320dce42f507}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FortTortuga\Units">
+    <Filter Include="Condor%27s Nest\Units">
       <UniqueIdentifier>{cfc56128-3b95-4f43-9e92-1265c3e093d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

@@ -12,7 +12,7 @@ Mesh::Mesh(vector<Vertex> verts, vector<unsigned int> indices, vector<Texture> t
 	Initialize();
 }
 
-
+// Loads and stores the Mesh into OpenGL
 void Mesh::Initialize()
 {
 	glGenVertexArrays(1, &m_VAO);
@@ -45,7 +45,7 @@ void Mesh::Initialize()
 	glBindVertexArray(0);
 }
 
-
+// Pulls the previously loaded Mesh data out and draws it into the render buffer
 void Mesh::Draw(Shader shader)
 {
 	unsigned int diffuseNumber = 1;
@@ -82,4 +82,14 @@ void Mesh::Draw(Shader shader)
 	glBindVertexArray(m_VAO);
 	glDrawElements(GL_TRIANGLES, vertIndices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+}
+
+void Mesh::SetID(unsigned int id)
+{
+	m_id = id;
+}
+
+unsigned int Mesh::GetID()
+{
+	return m_id;
 }

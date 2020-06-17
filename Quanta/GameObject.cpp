@@ -8,8 +8,10 @@ GameObject::GameObject(string name, Model model, Shader shader)
 	SetModel(model);
 	SetShader(shader);
 	SetID(GameObject::m_idCounter);
+	model.SetID(GetID());
 }
 
+// Use our basic shaders
 GameObject::GameObject(string name, Model model)
 {
 	m_name = name;
@@ -17,8 +19,10 @@ GameObject::GameObject(string name, Model model)
 	SetModel(model);
 	SetShader(standardShader);
 	SetID(GameObject::m_idCounter);
+	model.SetID(GetID());
 }
 
+// Create an empty object that doesn't need to be rendered
 GameObject::GameObject()
 {
 	SetID(GameObject::m_idCounter);
@@ -29,6 +33,7 @@ void GameObject::Update(float deltaTime)
 {
 }
 
+// Create a new unique ID for the GameObject
 void GameObject::SetID(unsigned int id)
 {
 	m_id = id;

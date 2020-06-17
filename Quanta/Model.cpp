@@ -5,6 +5,10 @@
 // For optimization purposes
 vector<Texture> texturesLoaded;
 
+Model::Model()
+{
+}
+
 Model::Model(string const& modelFilePath)
 {
 	LoadModel(modelFilePath);
@@ -12,14 +16,18 @@ Model::Model(string const& modelFilePath)
 
 Model::Model(string const& spriteFilePath, bool isSprite)
 {
-	Load2DModel(spriteFilePath);
+	if (isSprite)
+	{
+		Load2DModel(spriteFilePath);
+	}
+	else
+	{
+		LoadModel(spriteFilePath);
+	}
 }
 
-Model::Model()
-{
-
-}
-
+// Given filepath, init a new Scene object that will create a tree structure for our meshes/verts within
+// the Model file
 void Model::LoadModel(string const& filePath)
 {
 	Assimp::Importer modelImporter;
@@ -102,12 +110,29 @@ void Model::Load2DModel(string spriteFilePath)
 	m_meshes.push_back(spriteMesh);
 }
 
+// Tells every Mesh in our Model to draw
 void Model::Draw(Shader shader)
 {
 	for (Mesh mesh : m_meshes)
 	{
 		mesh.Draw(shader);
 	}
+}
+
+// Gives our Meshes the same ID as the parent GameObject
+void Model::SetID(unsigned int id)
+{
+	m_id = id;
+
+	for (int i = 0; i < m_meshes.size(); ++i)
+	{
+		m_meshes[i].SetID(GetID());
+	}
+}
+
+unsigned int Model::GetID()
+{
+	return m_id;
 }
 
 // To be used if you want to maintain the heirarchy/connectivity of meshes in the scene
@@ -127,6 +152,7 @@ void Model::ProcessAssimpNode(aiNode* node, const aiScene* scene)
 	}
 }
 
+// Creates Meshes for like-geometry in a Model file
 Mesh Model::ProcessAssimpMesh(aiMesh* mesh, const aiScene* scene)
 {
 	vector<Vertex> verts;
@@ -195,7 +221,7 @@ Mesh Model::ProcessAssimpMesh(aiMesh* mesh, const aiScene* scene)
 	return Mesh(verts, indices, textures);
 }
 
-
+// Accessess and loads materials the were specified in the Model file
 vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
 {
 	vector<Texture> textures;
@@ -230,6 +256,8 @@ vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 	return textures;
 }
 
+// Given a path, this loads the texture into memory (OpenGL) and returns an int ID of where
+// it can be found
 unsigned int Model::LoadTextureFromFile(string& path)
 {
 	cout << path << endl;

@@ -2,10 +2,10 @@
 #include "Game.h"
 #include "InputHandler.h"
 
-class Condor: public Game
+class CondorsNest: public Game
 {
 public:
-	static shared_ptr<Condor> Instance();
+	static shared_ptr<CondorsNest> Instance();
 
 	void Update(float deltaTime);
 	void StartGame();
@@ -17,8 +17,8 @@ public:
 	bool CheckIfLocationIsValid(glm::vec2 location);
 
 private:
-	static Condor* m_pInstanceRaw;
-	static shared_ptr<Condor> m_pInstance;
+	static CondorsNest* m_pInstanceRaw;
+	static shared_ptr<CondorsNest> m_pInstance;
 
 	void SetupInputCommands(shared_ptr<GameObject> cursor);
 	shared_ptr<GameObject> CreateCursor();

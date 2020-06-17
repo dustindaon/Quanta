@@ -162,7 +162,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="RadialMenu.cpp" />
     <ClCompile Include="RenderingManager.cpp" />
-    <ClCompile Include="Condor.cpp" />
+    <ClCompile Include="CondorsNest.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScrollCommand.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -194,7 +194,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="RadialMenu.h" />
     <ClInclude Include="RenderingManager.h" />
-    <ClInclude Include="Condor.h" />
+    <ClInclude Include="CondorsNest.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScrollCommand.h" />
     <ClInclude Include="Shader.h" />

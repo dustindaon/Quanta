@@ -4,16 +4,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include "Engine.h"
 #include "Matrix4.h"
 #include "Camera.h"
 
-// TESTING
-#include "Shader.h"
-
+////////////////////////////////////////////////////////////
+// RenderingManager Class
+// Usage: Singleton that can be called using RenderingManager::Instance(). Used to iterate
+// through all GameObjects in our world and renders them given the Model/View/Projection matrices
+/////////////////////////////////////////////////////////////
 class RenderingManager
 {
 public:
