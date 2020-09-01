@@ -1,6 +1,7 @@
 #include <glad/glad.h> // Always include first!
 #include <GLFW/glfw3.h>
 #include "Model.h"
+#include <math.h>
 
 // For optimization purposes
 vector<Texture> texturesLoaded;
@@ -106,6 +107,9 @@ void Model::Load2DModel(string spriteFilePath)
 	indices.push_back(3);
 	indices.push_back(0);
 
+	m_outerPoints[0] = glm::vec3(-1, 0, -1);
+	m_outerPoints[1] = glm::vec3(1, 0, 1);
+
 	Mesh spriteMesh = Mesh(verts, indices, sprites);
 	m_meshes.push_back(spriteMesh);
 }
@@ -135,6 +139,43 @@ unsigned int Model::GetID()
 	return m_id;
 }
 
+vector<glm::vec3> Model::GetAABB()
+{
+	// TODO: Put this into the math library
+	// Calculate all the points on the AABB cube surrounding object
+	if (m_aabbPoints.size() == 0)
+	{
+		float radius = abs((m_outerPoints[0][0] - m_outerPoints[1][0])) / 2;
+		float hypotonuse = sqrt(pow(radius, 2) + pow(radius, 2));
+
+		float xMin = m_outerPoints[0][0];
+		float xMax = m_outerPoints[1][0];
+		float yMin = m_outerPoints[0][1];
+		float yMax = m_outerPoints[1][1];
+		float zMin = m_outerPoints[0][2];
+		float zMax = m_outerPoints[1][2];
+		glm::vec3 p1 = glm::vec3(xMin, yMax, zMax);
+		glm::vec3 p2 = glm::vec3(xMin, yMax, zMin);
+		glm::vec3 p3 = glm::vec3(xMin, yMin, zMax);
+		glm::vec3 p4 = glm::vec3(xMin, yMin, zMin);
+		glm::vec3 p5 = glm::vec3(xMax, yMax, zMax);
+		glm::vec3 p6 = glm::vec3(xMax, yMax, zMin);
+		glm::vec3 p7 = glm::vec3(xMax, yMin, zMax);
+		glm::vec3 p8 = glm::vec3(xMax, yMin, zMin);
+
+		//glm::vec3 test = glm::vec3(radius, hypotonuse, 0);
+		m_aabbPoints.push_back(p1);
+		m_aabbPoints.push_back(p2);
+		m_aabbPoints.push_back(p3);
+		m_aabbPoints.push_back(p4);
+		m_aabbPoints.push_back(p5);
+		m_aabbPoints.push_back(p6);
+		m_aabbPoints.push_back(p7);
+		m_aabbPoints.push_back(p8);
+	}
+	return m_aabbPoints;
+}
+
 // To be used if you want to maintain the heirarchy/connectivity of meshes in the scene
 void Model::ProcessAssimpNode(aiNode* node, const aiScene* scene)
 {
@@ -162,6 +203,8 @@ Mesh Model::ProcessAssimpMesh(aiMesh* mesh, const aiScene* scene)
 	// Process vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
+		CalcMinMaxPoint(glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z));
+
 		Vertex vert;
 		glm::vec3 vector;
 		vector.x = mesh->mVertices[i].x;
@@ -219,6 +262,34 @@ Mesh Model::ProcessAssimpMesh(aiMesh* mesh, const aiScene* scene)
 	}
 
 	return Mesh(verts, indices, textures);
+}
+
+void Model::CalcMinMaxPoint(glm::vec3 point)
+{	
+	if (point.x < m_outerPoints[0].x)
+	{
+		m_outerPoints[0].x = point.x;
+	}
+	if (point.y < m_outerPoints[0].y)
+	{
+		m_outerPoints[0].y = point.y;
+	}
+	if (point.z < m_outerPoints[0].z)
+	{
+		m_outerPoints[0].z = point.z;
+	}
+	if (point.x > m_outerPoints[1].x)
+	{
+		m_outerPoints[1].x = point.x;
+	}
+	if (point.y > m_outerPoints[1].y)
+	{
+		m_outerPoints[1].y = point.y;
+	}
+	if (point.z > m_outerPoints[1].z)
+	{
+		m_outerPoints[1].z = point.z;
+	}
 }
 
 // Accessess and loads materials the were specified in the Model file

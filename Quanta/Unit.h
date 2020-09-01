@@ -11,6 +11,9 @@ public:
 
 	void Update(float deltaTime);
 
+	void SetSprite(string spritePath);
+	shared_ptr<Model> GetSprite();
+
 	virtual glm::vec3 GetDestination();
 	virtual void SetDestination(glm::vec3 newDestination);
 
@@ -47,7 +50,10 @@ public:
 
 private:
 	glm::vec3 m_destination = NULL_DEST;
-	float m_movementSpeed = 0;
+	weak_ptr<Unit> m_currentTarget;
+	vector<glm::vec3> m_route; float m_movementSpeed = 0;
+	shared_ptr<Model> m_sprite;
+
 	float m_reachedDestinationMargin = 0.05;
 	float m_attackSpeed = 0;
 	float m_attackRange = 0;
@@ -55,8 +61,6 @@ private:
 	int m_cost = 0;
 	int m_maxHealth = 0;
 	int m_currentHealth = 0;
-	weak_ptr<Unit> m_currentTarget;
-	vector<glm::vec3> m_route;
 	int m_currentRoutePos = 0;
 
 	void GetNewDestination();

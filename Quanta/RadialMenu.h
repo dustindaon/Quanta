@@ -6,7 +6,7 @@ class RadialMenu :
 	public UI
 {
 public:
-	RadialMenu();
+	RadialMenu(vector<shared_ptr<Unit>> units);
 	bool HandleClick(weak_ptr<GameObject> cursor);
 	void CreateMenu();
 
@@ -18,7 +18,7 @@ public:
 //// TODO: Remove this from here
 ////bool m_radialBuyMenuActive = false;
 ////shared_ptr<RadialMenu> m_activeMenu;
-////vector<Unit> m_unitTypes;
+	vector<shared_ptr<Unit>> m_unitTypes;
 
 private:
 	void DestroyMenu();

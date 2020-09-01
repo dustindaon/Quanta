@@ -1,6 +1,6 @@
 #include "FirstLevel.h"
 #include "Camera.h"
-
+#include "Raycast.h"
 #include "Swordsman.h"
 #include "Archer.h"
 #include "Catapult.h"
@@ -12,20 +12,53 @@ void FirstLevel::Update()
 
 FirstLevel::FirstLevel()
 {
-	CreateEnemies();
+	//CreateEnemies();
 
-	// Create a map sprite and rotate it into postion (got all the positions on the map from a previous ver,
-	// so we have to rotate the map to fit the old coordinates)
+	//// Create a map sprite and rotate it into postion (got all the positions on the map from a previous ver,
+	//// so we have to rotate the map to fit the old coordinates)
+	//Shader standard = Shader("Standard.vs", "Standard.fs");
+	//Model mapModel = Model("Resources/RoughDraft/map_sprite.png", true);
+	//auto map = make_shared<GameObject>("Map", mapModel, standard);
+	//map->GetTransform().SetRotation(0, 180, 0);
+
+	//// Set the camera above the level pointing down at it
+	//Camera::MainCamera->GetTransform()->SetPosition(0.0f, 1.5f, 0.0f);
+	//Camera::MainCamera->GetTransform()->SetRotation(0.0f, -90.0f, 0.0f);
+
+	//AddGameObject(map);
+
+	// Testing rays
 	Shader standard = Shader("Standard.vs", "Standard.fs");
-	Model mapModel = Model("Resources/RoughDraft/map_sprite.png", true);
-	auto map = make_shared<GameObject>("Map", mapModel, standard);
-	map->GetTransform().SetRotation(0, 180, 0);
-
+	Model cubeModel = Model("Resources/cube.obj");
+	auto cube = make_shared<GameObject>("Cube", cubeModel, standard);
 	// Set the camera above the level pointing down at it
 	Camera::MainCamera->GetTransform()->SetPosition(0.0f, 1.5f, 0.0f);
 	Camera::MainCamera->GetTransform()->SetRotation(0.0f, -90.0f, 0.0f);
 
-	AddGameObject(map);
+	AddGameObject(cube);
+
+	Vertex ray = Vertex(glm::vec3(1, 1, 1), glm::vec3(-1, -1, -1), glm::vec4(0, 0, 0, 0), glm::vec2(0, 0));
+	vector<shared_ptr<GameObject>> hit = Physics::Raycast::CastRay(ray, 10000, GetGameObjects());
+	Vertex ray2 = Vertex(glm::vec3(0, 0, 0), glm::vec3(0.25, 0.25, 0.25), glm::vec4(0, 0, 0, 0), glm::vec2(0, 0));
+	vector<shared_ptr<GameObject>> hit2 = Physics::Raycast::CastRay(ray2, 10000, GetGameObjects());
+
+	if (hit.size() == 0)
+	{
+		cout << "Didn't hit the box!" << endl;
+	}
+	else
+	{
+		cout << "Hit the box! :)" << endl;
+	}
+
+	if (hit2.size() == 0)
+	{
+		cout << "Didn't hit the box!" << endl;
+	}
+	else
+	{
+		cout << "Hit the box! :)" << endl;
+	}
 }
 
 void FirstLevel::PopulatePurchasableUnits()

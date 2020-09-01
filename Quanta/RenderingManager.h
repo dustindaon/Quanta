@@ -36,8 +36,8 @@ private:
 
 	void Initiate();
 
-	float m_screenWidth;
-	float m_screenHeight;
+	float m_screenWidth = 0;
+	float m_screenHeight = 0;
 };
 
 

@@ -4,14 +4,8 @@
 class Vertex
 {
 public:
-	Vertex() {};
-	Vertex(glm::vec3 position, glm::vec3 normal, glm::vec4 color, glm::vec2 textureCoords)
-	{
-		this->Position = position;
-		this->Normal = normal;
-		this->Color = color;
-		this->TextureCoords = textureCoords;
-	}
+	Vertex();
+	Vertex(glm::vec3 position, glm::vec3 normal, glm::vec4 color, glm::vec2 textureCoords);
 
 	glm::vec3 Position;
 	glm::vec3 Normal;

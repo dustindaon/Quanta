@@ -1,7 +1,8 @@
 #include "RadialMenu.h"
 
-RadialMenu::RadialMenu()
+RadialMenu::RadialMenu(vector<shared_ptr<Unit>> units)
 {
+	m_unitTypes = units;
 }
 
 bool RadialMenu::HandleClick(weak_ptr<GameObject> cursor)
@@ -12,14 +13,13 @@ bool RadialMenu::HandleClick(weak_ptr<GameObject> cursor)
 
 void RadialMenu::CreateMenu()
 {
-	vector<Unit> menuUnits;
 	float menuCircumference = 3.14159f * (m_menuRadius * m_menuRadius);
-	float distBetweenItems = menuCircumference / menuUnits.size();
+	float distBetweenItems = menuCircumference / m_unitTypes.size();
 
 	// Populate the radial menu with evenly spaced out units that the player can buy
-	for (int i = 0; i < menuUnits.size(); ++i)
+	for (int i = 0; i < m_unitTypes.size(); ++i)
 	{
-
+		//Model unitSprite = 
 	}
 }
 

@@ -28,7 +28,5 @@ public:
 	float m_y;
 	float m_z;
 	float m_w;
-private:
-
 };
 

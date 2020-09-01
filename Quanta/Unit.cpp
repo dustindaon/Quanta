@@ -11,6 +11,16 @@ void Unit::Update(float deltaTime)
 	Move(deltaTime);
 }
 
+void Unit::SetSprite(string spritePath)
+{
+	m_sprite = make_shared<Model>(spritePath, true);
+}
+
+shared_ptr<Model> Unit::GetSprite()
+{
+	return m_sprite;
+}
+
 glm::vec3 Unit::GetDestination()
 {
 	return m_destination;
@@ -146,7 +156,7 @@ void Unit::Move(float deltaTime)
 
 	if (glm::length(GetTransform().GetPosition() - m_destination) <= m_reachedDestinationMargin)
 	{
-		cout << "Made it to my destination! Getting a new one now" << endl;
+		//cout << "Made it to my destination! Getting a new one now" << endl;
 		GetNewDestination();
 	}
 
@@ -173,5 +183,5 @@ void Unit::GetNewDestination()
 	glm::vec3 newDest = m_route[m_currentRoutePos];
 
 	SetDestination(newDest);
-	cout << "New Destination is: " << newDest.x << ", " << newDest.y << ", " << newDest.z << endl;
+	//cout << "New Destination is: " << newDest.x << ", " << newDest.y << ", " << newDest.z << endl;
 }

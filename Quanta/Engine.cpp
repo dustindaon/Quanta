@@ -28,7 +28,6 @@ void Engine::Update(shared_ptr<Game> game)
 {
 	float lastFrame = 0.0f;
 
-	cout << "Updating" << endl;
 	while (m_isRunning)
 	{
 		m_gameObjects = game->GetGameObjects();
@@ -44,7 +43,6 @@ void Engine::Update(shared_ptr<Game> game)
 		RenderingManager::Instance()->Update();
 	}
 }
-
 
 // Takes a shared_ptr<GameObject> from GameManager and registers it as a weak_ptr<GameObject> in the engine
 void Engine::AddGameObject(shared_ptr<GameObject> objectToAdd)

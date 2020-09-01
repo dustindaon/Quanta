@@ -16,9 +16,6 @@
     <ClCompile Include="FirstLevel.cpp">
       <Filter>Condor%27s Nest</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>GameBase</Filter>
-    </ClCompile>
     <ClCompile Include="glad.c">
       <Filter>Libs</Filter>
     </ClCompile>
@@ -97,6 +94,9 @@
     <ClCompile Include="CondorsNest.cpp">
       <Filter>Condor%27s Nest</Filter>
     </ClCompile>
+    <ClCompile Include="Raycast.cpp">
+      <Filter>Engine\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -110,9 +110,6 @@
     </ClInclude>
     <ClInclude Include="FirstLevel.h">
       <Filter>Condor%27s Nest</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>GameBase</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
       <Filter>Engine\Math</Filter>
@@ -189,6 +186,9 @@
     <ClInclude Include="CondorsNest.h">
       <Filter>Condor%27s Nest</Filter>
     </ClInclude>
+    <ClInclude Include="Raycast.h">
+      <Filter>Engine\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -220,6 +220,9 @@
     </Filter>
     <Filter Include="Condor%27s Nest\Units">
       <UniqueIdentifier>{cfc56128-3b95-4f43-9e92-1265c3e093d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Physics">
+      <UniqueIdentifier>{c86ce88d-b9b5-440b-87d3-92337507bfd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
