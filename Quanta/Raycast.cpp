@@ -1,5 +1,6 @@
 #include "Raycast.h"
 
+// TODO:: Add length calculations, currently infinite
 vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float length)
 {
 	vector<shared_ptr<GameObject>> worldObjects = Engine::Instance()->GetGameObjects();
@@ -7,7 +8,7 @@ vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float lengt
 	return Physics::Raycast::CastRay(ray, length, worldObjects);
 }
 
-vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float length, vector<shared_ptr<GameObject>> targets)
+vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float rayLength, vector<shared_ptr<GameObject>> targets)
 {
 	vector<shared_ptr<GameObject>> collidedObjects;
 
@@ -26,8 +27,12 @@ vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float lengt
 		float zMinRayLength = (points[0].z - ray.Position.z) / ray.Normal.z;
 		float zMaxRayLength = (points[1].z - ray.Position.z) / ray.Normal.z;
 
-		// Fire rays by all these scalars and see if one hits our AABB
-		if (xMinRayLength > 0)
+		cout << "XMin: " << xMinRayLength << ", XMax: " << xMaxRayLength << ", YMin: "
+			<< yMinRayLength << ", YMax: " << yMaxRayLength << ", ZMin: " << zMinRayLength
+			<< ", ZMax: " << zMaxRayLength << endl;
+
+		// Fire rays by all these scalars and see if one hits our AABB on any of its 6 points
+		if (xMinRayLength > 0 && xMinRayLength <= rayLength)
 		{
 			glm::vec3 xMinRayPos = ray.Position + (xMinRayLength * ray.Normal);
 			if (DoesRayHit(xMinRayPos, points))
@@ -36,7 +41,7 @@ vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float lengt
 				continue;
 			}
 		}
-		if (xMaxRayLength > 0)
+		if (xMaxRayLength > 0 && xMaxRayLength <= rayLength)
 		{
 			glm::vec3 xMaxRayPos = ray.Position + (xMaxRayLength * ray.Normal);
 			if (DoesRayHit(xMaxRayPos, points))
@@ -45,7 +50,7 @@ vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float lengt
 				continue;
 			}
 		}
-		if (yMinRayLength > 0)
+		if (yMinRayLength > 0 && yMinRayLength <= rayLength)
 		{
 			glm::vec3 yMinRayPos = ray.Position + (yMinRayLength * ray.Normal);
 			if (DoesRayHit(yMinRayPos, points))
@@ -54,7 +59,7 @@ vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float lengt
 				continue;
 			}
 		}
-		if (yMaxRayLength > 0)
+		if (yMaxRayLength > 0 && yMaxRayLength <= rayLength)
 		{
 			glm::vec3 yMaxRayPos = ray.Position + (yMaxRayLength * ray.Normal);
 			if (DoesRayHit(yMaxRayPos, points))
@@ -63,7 +68,7 @@ vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float lengt
 				continue;
 			}
 		}
-		if (zMinRayLength > 0)
+		if (zMinRayLength > 0 && zMinRayLength <= rayLength)
 		{
 			glm::vec3 zMinRayPos = ray.Position + (zMinRayLength * ray.Normal);
 			if (DoesRayHit(zMinRayPos, points))
@@ -72,7 +77,7 @@ vector<shared_ptr<GameObject>> Physics::Raycast::CastRay(Vertex ray, float lengt
 				continue;
 			}
 		}
-		if (zMaxRayLength > 0)
+		if (zMaxRayLength > 0 && zMaxRayLength <= rayLength)
 		{
 			glm::vec3 zMaxRayPos = ray.Position + (zMaxRayLength * ray.Normal);
 			if (DoesRayHit(zMaxRayPos, points))

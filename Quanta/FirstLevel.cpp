@@ -29,6 +29,7 @@ FirstLevel::FirstLevel()
 
 	// Testing rays
 	Shader standard = Shader("Standard.vs", "Standard.fs");
+	// Basic cube going from -0.5 to 0.5 in all three dimensions
 	Model cubeModel = Model("Resources/cube.obj");
 	auto cube = make_shared<GameObject>("Cube", cubeModel, standard);
 	// Set the camera above the level pointing down at it
@@ -37,8 +38,9 @@ FirstLevel::FirstLevel()
 
 	AddGameObject(cube);
 
-	Vertex ray = Vertex(glm::vec3(1, 1, 1), glm::vec3(-1, -1, -1), glm::vec4(0, 0, 0, 0), glm::vec2(0, 0));
-	vector<shared_ptr<GameObject>> hit = Physics::Raycast::CastRay(ray, 10000, GetGameObjects());
+	Vertex ray = Vertex(glm::vec3(2, 2, 2), glm::vec3(-0.5, -0.5, -0.5), glm::vec4(0, 0, 0, 0), glm::vec2(0, 0));
+	vector<shared_ptr<GameObject>> hit = Physics::Raycast::CastRay(ray, 3, GetGameObjects());
+	// Represents a ray going from the 0,0,0 in the direction of 0.25... Distance is 10000
 	Vertex ray2 = Vertex(glm::vec3(0, 0, 0), glm::vec3(0.25, 0.25, 0.25), glm::vec4(0, 0, 0, 0), glm::vec2(0, 0));
 	vector<shared_ptr<GameObject>> hit2 = Physics::Raycast::CastRay(ray2, 10000, GetGameObjects());
 
